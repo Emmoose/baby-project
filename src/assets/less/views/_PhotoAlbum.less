@@ -1,0 +1,57 @@
+@import './../_global';
+
+.photo-album-view {  
+  .image-album {
+    background-color: @white;
+    padding: @indent__m 0;
+    width: 800px;
+    margin: 0 auto @indent__s auto;
+
+    &__info-text {
+      text-align: start;
+      margin-left: @indent__base;
+    }
+  }
+
+  .image-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  
+
+    &__image {
+      width: 390px;
+      height: 520px;
+      margin: 2px;
+      border-radius: 8px;
+    }
+  }
+
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+  .photo-album-view {
+    .image-album {
+      width: 100%;
+      margin: 0 @indent__xs;
+      padding: @indent__base 0;
+
+      &__info-text {
+        text-align: center;
+      }
+    }
+
+    .image-list {  
+      &__image {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        margin: @indent__xs 0;
+        padding: 0 @indent__xs;
+        
+      }
+    }
+  
+  }
+}

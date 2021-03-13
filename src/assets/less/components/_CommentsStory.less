@@ -1,0 +1,99 @@
+@import './../_global';
+
+.comment-story {
+    .show-comments {
+        &__like-button {
+            background: none;
+            border: none;
+            padding: 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &__total-number {
+            margin-right: auto;
+            margin-left: @indent__xs;
+        }
+
+    
+        &__comments-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: @indent__base;
+            border-top: 1px solid @input-border;
+        }
+    }
+
+    .comments-list {
+        border-top: 1px solid @input-border;
+        display: flex;
+        flex-direction: column;
+        padding-top: @indent__base;
+
+        &__items {
+            margin: 0 0 @indent__sm 0;
+            display: flex;
+        }
+
+        &__comment-textbox {
+            display: inline-block;
+            background-color: @light;
+            border-radius: 20px;
+            padding: @indent__sm @indent__base;
+            margin: 0 @indent__base;
+            overflow-wrap: anywhere;
+            position: relative;
+
+            &--current-users {
+                background-color: @primary;
+                background: @primary-light; 
+            }
+        }
+
+        &__comment-username {
+            text-align: initial;
+            font-weight: 700;
+        }
+
+        &__comment-delete {
+            z-index: 1;
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            color: @white;
+            right: -4px;
+            top: -6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background: @ingrid-pink; 
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .create-comment__textarea {
+        height: auto;
+        overflow: hidden;
+        border-radius: 20px;
+        background-color:  @primary-light;
+        width: 600px;
+        margin: 0 @indent__base @indent__s @indent__base;
+        font-size: 12px;
+        padding: @indent__sm;
+    }   
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+    .comment-story {
+        .create-comment__textarea  {
+            width: 90%;
+        }
+    }
+}

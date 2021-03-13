@@ -1,0 +1,217 @@
+// GLOBAL STYLING
+
+// resets
+
+@import './_variables.less';
+
+body {
+	margin: 0;
+	color: @dark;
+	background: @background;
+}
+
+html {
+	line-height: 1.15;
+	font-size: 10px;
+	-webkit-text-size-adjust: 100%;
+}
+
+* {
+	font-family: 'Open Sans', sans-serif;
+	box-sizing: border-box;
+	transition: 0.15s;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+// fonts
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+	margin: 0 0 0.5rem;
+}
+
+h1 {
+	font-size: 3.2rem;
+}
+
+h2 {
+	font-size: 2.4rem;
+}
+
+h3 {
+	font-size: 1.8rem;
+}
+
+h4 {
+	font-size: 1.6rem;
+}
+
+h5 {
+	font-size: 1.2rem;
+}
+
+span, a {
+	font-size: 1.4rem;
+}
+
+p {
+	font-size: 1.4rem;
+	line-height: 1.5;
+	margin: 0;
+}
+
+// Standard Element Styling 
+
+a {
+	font-family: 'Open Sans', sans-serif;
+	text-decoration: none;
+	color: @primary;
+	margin: 0;
+	cursor: pointer;
+
+	&:hover {
+		color: lighten(@primary, 5%);
+	}
+}
+
+[v-cloak] {
+	display: none;
+}
+
+.button {
+	background: @primary;
+	border: 0;
+	outline: 0;
+	color: @white;
+	padding: 0.8rem 1rem;
+	min-width: 150px;
+	font-size: 16px;
+	border-radius: 3px;
+	cursor: pointer;
+
+	&:hover {
+		background: lighten(@primary, 5%);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+
+		&:hover {
+			background: @primary;
+		}
+	}
+}
+
+ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+form {
+	label {
+		display: block;
+		font-size: 16px;
+		margin-bottom: 0.5rem;
+	}
+
+	input {
+		display: block;
+		width: 100%;
+		margin-bottom: @indent__base;
+		font-size: 16px;
+		padding: 10px;
+		outline: 0;
+		border: 1px solid @input-border;
+		border-radius: 3px;
+
+		&:focus {
+			box-shadow: 0 0 5px 0 rgba(@dark, 0.2);
+		}
+	}
+	
+	// Fixing annoying shadow on iOS
+	input[type=email],
+	input[type=text],
+	input[type=password],
+	textarea {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+
+	form input:-internal-autofill-selected {
+		appearance: menulist-button;
+		background-color: red !important;
+	}
+
+	input:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0px 1000px @primary-light inset;
+		background-color: transparent;
+	}
+
+	textarea {
+		resize: none;
+		border: 1px solid @input-border;
+		outline: 0;
+		height: 100px;
+		width: 100%;
+		padding: 10px;
+		font-size: 16px;
+	}
+}
+// Transitions
+
+.fade-enter-active {
+	transition: opacity 0.5s;
+}
+
+.fade-leave-active {
+	transition: opacity 0s;
+}
+
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
+// Layout
+
+.page-wrapper {
+    max-width: 976px;
+    margin: @indent__m auto;
+}
+
+.card {
+	border-radius: 8px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.page-header {
+	margin-bottom: @indent__m;
+	color: @white;
+}
+
+
+// Override inline component styling
+
+.VueCarousel-dot-container {
+	margin-top: 8px !important;
+
+	button {
+		margin-top: 0 !important;
+	}
+}
+
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+	.button {
+		width: 100%;
+	}
+  }

@@ -1,0 +1,53 @@
+@import './../_global';
+
+.stories-view {
+    width: 800px;
+
+    .story {
+        background-color: @white;
+        margin-bottom: @indent__base;
+
+        &__post-information {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: @indent__base;
+            border-bottom: 1px solid @input-border;
+        }
+
+        &__username,
+        &__post-date {
+            text-align: initial;
+            margin-bottom: 0;
+        }
+
+        &__username {
+            font-weight: 700;
+        }
+
+        &__post-date {
+            color: @medium;
+        }
+
+        &__text {
+            padding: 0 @indent__base @indent__base @indent__base;
+            text-align: initial;
+            margin: @indent__base 0 0 0;
+        }
+    }
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+    .stories-view {
+        width: 100%;
+
+        .story {
+            margin: 0 @indent__xs @indent__base @indent__xs;
+
+            &__postdate {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

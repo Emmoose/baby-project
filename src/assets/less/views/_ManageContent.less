@@ -1,0 +1,291 @@
+@import './../_global';
+// BEMIFY waste bin
+.manage-content-view {
+    .create-story,
+    .create-metric {
+        margin: 0 auto;
+        width: 800px;
+        padding: @indent__m;
+        border: 1px solid @input-border;
+        background-color: @white; 
+        position: relative;   
+    }
+
+    .create-story {
+        &__header {
+            margin-bottom: @indent__s;
+            text-align: left;
+        }
+
+        &__info {
+            margin-bottom: @indent__m;
+            text-align: left;
+        }
+
+        &__file-uploader {
+            display: none;
+        }
+
+        &__upload-container {
+            align-items: center;
+            display: flex;
+            margin-bottom: @indent__base;
+        }
+
+        &__image-placeholder {
+            flex-grow: 1;
+            background-color: @light;
+            border: 1px solid @input-border;
+            padding: @indent__base;
+            margin-right: @indent__base;
+        }
+
+        &__upload-image {
+            margin-left: auto;
+            display: block;
+            min-width: auto;
+
+            &--plus-sign {
+                font-size: 20px;
+                font-weight: 700;
+                width: 34px;
+                height: 34px;
+                padding-top: 4px;
+            }
+        }
+
+        &__publish-story {
+            margin-top: @indent__base;
+            margin-left: auto;
+            display: block;
+        }
+    }
+
+    .image-list {
+        &__item {
+            list-style: none;
+            margin-bottom: @indent__base;
+        }
+
+        &__header {
+            text-align: left;
+        }
+
+        &__preview {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__image-container {
+            border: 1px solid @dark;
+            width: 100%;
+            position: relative;
+        }
+
+        &__image {
+            height: auto;
+            width: 100%;
+        }
+
+        &__move-button-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            width: 44px;
+        }
+
+        &__move-button {
+            min-width: auto;
+            margin-bottom: @indent__base;
+            height: 34px;
+            width: 34px;
+
+            &--up::after,
+            &--down:after {
+                content: "";
+                display: block;
+                border-right: 2px solid white;
+                border-top: 2px solid white;
+                height: 12px;
+                width: 12px;
+                margin-left: 1px;
+            }
+
+            &--up::after {
+                margin-top: 6px;
+                transform: rotate(-45deg);
+            }
+
+            &--down:after {
+                margin-bottom: 6px;
+                transform: rotate(135deg);
+            }
+        }     
+    }
+
+    .icon-trash {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        right: 0px;
+        overflow: hidden;
+        border: none;
+        opacity: 0.5;
+
+        &:hover {
+            cursor: pointer; 
+        }
+
+        &__trash-lid {
+            width: 62%;
+            height: 10%;
+            position: absolute;
+            left: 50%;
+            margin-left: -31%;
+            top: 10.5%;
+            background-color: @primary;
+            border-top-left-radius: 80%;
+            border-top-right-radius: 80%;
+            -webkit-transform: rotate(-5deg);
+            -moz-transform: rotate(-5deg);
+            -ms-transform: rotate(-5deg);
+            transform: rotate(-5deg);
+            
+            &:after {
+                content: "";
+                width: 26%;
+                height: 100%;
+                position: absolute;
+                left: 50%;
+                margin-left: -13%;
+                margin-top: -10%;
+                background-color: inherit;
+                border-top-left-radius: 30%;
+                border-top-right-radius: 30%;
+                -webkit-transform: rotate(-1deg);
+                -moz-transform: rotate(-1deg);
+                -ms-transform: rotate(-1deg);
+                transform: rotate(-1deg); 
+            }
+          }
+
+          &__trash-container {
+            width: 56%;
+            height: 65%;
+            position: absolute;
+            left: 50%;
+            margin-left: -28%;
+            bottom: 10%;
+            background-color: @primary;
+            border-bottom-left-radius: 15%;
+            border-bottom-right-radius: 15%;
+
+            &:after {
+                content: "";
+                width: 110%;
+                height: 12%;
+                position: absolute;
+                left: 50%;
+                margin-left: -55%;
+                top: 0;
+                background-color: inherit;
+                border-bottom-left-radius: 45%;
+                border-bottom-right-radius: 45%;
+            }
+          }
+
+          &__trash-line-1 {
+            width: 4%;
+            height: 50%;
+            position: absolute;
+            left: 38%;
+            margin-left: -2%;
+            bottom: 17%;
+            background-color: @white;
+          }
+
+          &__trash-line-2 {
+            width: 4%;
+            height: 50%;
+            position: absolute;
+            left: 50%;
+            margin-left: -2%;
+            bottom: 17%;
+            background-color: @white;
+          }
+
+          &__trash-line-3 {
+            width: 4%;
+            height: 50%;
+            position: absolute;
+            left: 62%;
+            margin-left: -2%;
+            bottom: 17%;
+            background-color: @white; 
+        }
+    }
+
+    .create-metric {
+        margin-top: @indent__m;
+
+        &__header {
+            margin-bottom: @indent__s;
+            text-align: left;
+        }
+
+        &__info {
+            margin-bottom: @indent__m;
+            text-align: left;
+        }
+
+        &__input-container {
+            display: flex;
+            margin: @indent__m 0;
+        }
+
+        .create-metric__input {
+            margin-right: @indent__base;
+        }
+
+        .create-metric__upload-button {
+            display: block;
+            margin-left: auto;
+        }
+    }
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+    .manage-content-view {
+        margin: @indent__base @indent__xs;
+
+        .messages {
+            width: 100%;
+        }
+
+        .create-story,
+        .create-metric {
+            width: 100%;
+            padding: @indent__base;
+        }
+
+        .create-story__publish-story {
+            width: 100%;
+        }
+
+        .create-metric {
+            &__input-container {
+                margin: 0;
+            }
+
+            &__height-form {
+                margin-top: @indent__base;
+            }
+
+            &__upload-button {
+                width: 100%;
+            }
+        }
+    }
+}

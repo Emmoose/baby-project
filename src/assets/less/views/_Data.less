@@ -1,0 +1,31 @@
+@import './../_global';
+/// This should be moved to components?
+.data-view {
+    .graphs {
+        width: 800px;
+        margin: 0 auto @indent__m auto;
+        padding: @indent__m; 
+        background-color: @white;
+    }
+
+
+    .baby-metric-chart {
+        border: 1px solid @dark;
+        padding: @indent__base;
+        border-radius: 4px;
+    }
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+    .data-view {
+        margin-left: @indent__xs;
+        margin-right: @indent__xs;
+
+        .graphs {
+            width: 100%;
+            padding: 8px;
+            margin: 0 0 @indent__base 0;
+        }
+    }
+}
