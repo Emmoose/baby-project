@@ -32,6 +32,9 @@
             id="password1"
           />
         </div>
+        <div class="authentication-area__error" v-show="loginError">
+          Fel lösenord
+        </div>
         <button @click="login()" class="button">Logga in</button>
         <div class="authentication-area__link-container">
           <a @click="togglePasswordReset()">Glömt lösenord</a>
@@ -72,21 +75,26 @@
           <a @click="toggleForm()">Tillbaka till inloggning</a>
         </div>
       </form>
-      <PasswordReset
-        v-if="showPasswordReset"
-        @close="togglePasswordReset()"
-      ></PasswordReset>
+      <Modal v-if="showPasswordReset" @close="togglePasswordReset()"
+        ><PasswordReset
+      /></Modal>
     </div>
   </div>
 </template>
 
 <script>
 import PasswordReset from "@/components/PasswordReset";
+import Modal from "@/components/Modal";
+import { mapState } from "vuex";
 
 export default {
   title: "BabyGram - Logga in",
+  computed: {
+    ...mapState(["loginError"])
+  },
   components: {
-    PasswordReset
+    PasswordReset,
+    Modal
   },
   data() {
     return {

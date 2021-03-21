@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     userProfile: {},
     userLoggedIn: false,
     showGuessDate: false,
+    loginError: false,
 
     // Stories
     stories: [],

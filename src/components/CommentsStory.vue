@@ -1,20 +1,24 @@
 <template>
   <div class="comment-story">
     <div class="show-comments__comments-status">
-      <button @click="likeStory" class="show-comments__like-button">
-        <img
-          v-if="userLikedPost"
-          src="@/assets/svg-icons/stories__heart-fill.svg"
-        />
-        <img
-          v-if="!userLikedPost"
-          src="@/assets/svg-icons/stories__heart-outline.svg"
-        />
-      </button>
-      <a class="show-comments__total-number" @click="likeStory">{{
-        likes.length > 0 ? `(${likes.length})` : "Gilla"
-      }}</a>
-
+      <div class="show-comments__like-text">
+        <button @click="likeStory" class="show-comments__like-button">
+          <img
+            v-if="userLikedPost"
+            src="@/assets/svg-icons/stories__heart-fill.svg"
+          />
+          <img
+            v-if="!userLikedPost"
+            src="@/assets/svg-icons/stories__heart-outline.svg"
+          />
+        </button>
+        <span v-show="likes.length > 0" class="show-comments__total-number"
+          >Gillat av {{ this.likedText }}</span
+        >
+        <a @click="toggleShowWhoLiked" v-show="likes.length > 1">
+          och flera
+        </a>
+      </div>
       <a
         class="show-comments__comments-link"
         @click.prevent="toggleShowComments"
@@ -63,14 +67,24 @@
         ></textarea>
       </form>
     </div>
+    <Modal v-if="showWhoLiked" @close="toggleShowWhoLiked()"
+      ><ShowWhoLiked v-bind:likes="likes"
+    /></Modal>
   </div>
 </template>
 
 <script>
+import Modal from "@/components/Modal";
+import ShowWhoLiked from "@/components/ShowWhoLiked";
+
 import { auth } from "@/firebase";
 import { mapState } from "vuex";
 
 export default {
+  components: {
+    Modal,
+    ShowWhoLiked
+  },
   props: {
     storyId: String,
     likes: Array
@@ -80,7 +94,8 @@ export default {
       comment: "",
       dynamicHeight: 44,
       showComments: false,
-      userId: auth.currentUser.uid
+      userId: auth.currentUser.uid,
+      showWhoLiked: false
     };
   },
   computed: {
@@ -91,11 +106,25 @@ export default {
       }
       return 0;
     },
+    likedText() {
+      if (this.likes.length == 0) {
+        return "";
+      }
+
+      var likesSorted = [...this.likes].sort((a, b) =>
+        a.time > b.time ? 1 : -1
+      );
+
+      return likesSorted[0].name;
+    },
     userLikedPost() {
-      return this.likes.includes(auth.currentUser.uid);
+      return this.likes.some(like => like.userId == auth.currentUser.uid);
     }
   },
   methods: {
+    toggleShowWhoLiked() {
+      this.showWhoLiked = !this.showWhoLiked;
+    },
     deleteComment(comment) {
       this.$store.dispatch("deleteComment", comment);
     },
@@ -136,7 +165,8 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("fetchComments", this.storyId);
+    this.$store.dispatch("subscribeLikes", this.storyId);
+    this.$store.dispatch("subscribeComments", this.storyId);
   }
 };
 </script>

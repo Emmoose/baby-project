@@ -265,19 +265,16 @@ export default {
       this.referenceImages = tempReferenceImages;
     },
 
-    // Update a story - Refactor to action.js in the future
     async updateStory() {
-      await fb.storiesContentCollection.doc(this.editStory.storyId).update({
+      var payload = {
         image: this.imageUrls,
         story: this.story,
         referenceImages: this.referenceImages,
-        userName: this.$store.state.userProfile.name
-      });
+        userName: this.$store.state.userProfile.name,
+        storyId: this.editStory.storyId
+      };
 
-      this.$store.dispatch("addEditStory", {
-        editMode: false,
-        storyId: null
-      });
+      this.$store.dispatch("updateStory", payload);
 
       this.editMode = false;
       this.story = "";

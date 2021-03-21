@@ -1,6 +1,5 @@
 <template>
   <div class="stories-view page-wrapper">
-    <GuessDate />
     <ul class="stories">
       <li class="story card" v-for="story in stories" :key="story.id">
         <div class="story__post-information">
@@ -22,6 +21,10 @@
         <CommentsStory :storyId="story.id" v-bind:likes="story.likes" />
       </li>
     </ul>
+
+    <Modal v-if="showGuessDate" @close="closeShowGuessDate()"
+      ><GuessDate
+    /></Modal>
   </div>
 </template>
 
@@ -29,6 +32,8 @@
 import CommentsStory from "@/components/CommentsStory";
 import ImageCarousel from "@/components/ImageCarousel";
 import GuessDate from "@/components/GuessDate";
+import Modal from "@/components/Modal";
+
 import { mapState } from "vuex";
 
 export default {
@@ -36,12 +41,17 @@ export default {
   components: {
     CommentsStory,
     ImageCarousel,
-    GuessDate
+    GuessDate,
+    Modal
   },
   computed: {
-    ...mapState(["stories", "lastLoadedStory", "userProfile"])
+    ...mapState(["stories", "lastLoadedStory", "userProfile", "showGuessDate"])
   },
+
   methods: {
+    closeShowGuessDate() {
+      this.$store.dispatch("updateShowGuessDate", false);
+    },
     editStory(storyId) {
       this.$store.dispatch("addEditStory", {
         storyId: storyId,

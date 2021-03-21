@@ -2,15 +2,20 @@ import * as fb from "../firebase";
 import router from "../router/index";
 
 export default {
-  async login({ dispatch }, form) {
+  async login({ dispatch, commit }, form) {
     // sign user in
-    const { user } = await fb.auth.signInWithEmailAndPassword(
-      form.email,
-      form.password
-    );
+    try {
+      const { user } = await fb.auth.signInWithEmailAndPassword(
+        form.email,
+        form.password
+      );
+      dispatch("fetchUserProfile", user);
+      commit("toggleLoginError", false);
+    } catch (err) {
+      commit("toggleLoginError", true);
+    }
 
     // fetch user profile and set in state
-    dispatch("fetchUserProfile", user);
   },
   async signup({ dispatch }, form) {
     // sign user up
@@ -134,6 +139,20 @@ export default {
     await fb.storiesContentCollection.add(payload);
   },
 
+  async updateStory({ dispatch }, payload) {
+    await fb.storiesContentCollection.doc(payload.storyId).update({
+      image: payload.image,
+      story: payload.story,
+      referenceImages: payload.referenceImages,
+      userName: payload.userName
+    });
+
+    dispatch("addEditStory", {
+      editMode: false,
+      storyId: null
+    });
+  },
+
   async fetchStories({ commit }) {
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
@@ -170,56 +189,72 @@ export default {
     commit("updateStories", stories);
   },
 
-  async postComment({ dispatch }, comment) {
+  // eslint-disable-next-line
+  async postComment({ commit }, comment) {
     await fb.storiesCommentsCollection.add(comment);
-
-    dispatch("fetchComments", comment.storyId);
   },
 
-  async fetchComments({ commit }, storyId) {
-    var tempStoryComments = [];
-    const docs = await fb.storiesCommentsCollection
+  async subscribeComments({ commit }, storyId) {
+    fb.storiesCommentsCollection
       .where("storyId", "==", storyId)
-      .get();
+      .onSnapshot(docs => {
+        var tempStoryComments = [];
+        docs.forEach(doc => {
+          let comment = doc.data();
+          comment.id = doc.id;
+          tempStoryComments.push(comment);
+        });
 
-    docs.forEach(doc => {
-      let comment = doc.data();
-      comment.id = doc.id;
-      tempStoryComments.push(comment);
-    });
+        // Investigate this and fix it, should be sorted in api-call
+        // Need to add index on server afaik
+        var storyComments = tempStoryComments.sort((a, b) =>
+          a.createdOn > b.createdOn ? 1 : -1
+        );
 
-    // Investigate this and fix it, should be sorted in api-call
-    var storyComments = tempStoryComments.sort((a, b) =>
-      a.createdOn > b.createdOn ? 1 : -1
-    );
-
-    commit("updateStoryComments", { storyComments, storyId });
-  },
-
-  async deleteComment({ dispatch }, comment) {
-    await fb.storiesCommentsCollection.doc(comment.id).delete();
-    dispatch("fetchComments", comment.storyId);
+        commit("updateStoryComments", { storyComments, storyId });
+      });
   },
 
   // eslint-disable-next-line
-  async postLikesStory({ commit, state }, storyId) {
+  async deleteComment({ commit }, comment) {
+    await fb.storiesCommentsCollection.doc(comment.id).delete();
+  },
+
+  async subscribeLikes({ commit }, storyId) {
+    fb.storiesContentCollection.doc(storyId).onSnapshot(docs => {
+      commit("updateLikesOnStory", { likes: docs.data().likes, storyId });
+    });
+  },
+
+  async postLikesStory({ state }, storyId) {
     const story = await fb.storiesContentCollection.doc(storyId).get();
     const userId = state.userProfile.userId;
-    var likesCopy = [];
 
-    if (story.data().likes.includes(userId)) {
-      likesCopy = story.data().likes.filter(id => id != userId);
-      commit("removeLikesOnStory", { userId, storyId });
+    const likesData = {
+      userId: state.userProfile.userId,
+      name: state.userProfile.name,
+      time: new Date()
+    };
+
+    var likesCopy = [];
+    const prevLiked =
+      story.data().likes.filter(like => like.userId == userId).length > 0;
+
+    //If not liked before - Add to likes array
+    // if liked before - remove it from likes array
+    // Sync with FB
+    if (prevLiked) {
+      likesCopy = story.data().likes.filter(like => like.userId != userId);
     } else {
       likesCopy = story.data().likes.slice();
-      likesCopy.push(state.userProfile.userId);
-      commit("updateLikesOnStory", { userId, storyId });
+      likesCopy.push(likesData);
     }
 
     await fb.storiesContentCollection.doc(storyId).update({
       likes: likesCopy
     });
   },
+
   // eslint-disable-next-line
   async addImageLink({ commit }, payload) {
     await fb.allImageUrlsCollection.add({

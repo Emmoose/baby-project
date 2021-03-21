@@ -41,14 +41,14 @@ export default {
 
   updateLikesOnStory(state, val) {
     const index = state.stories.findIndex(story => story.id == val.storyId);
-    var copyLikes = state.stories[index].likes.slice();
-    copyLikes.push(val.userId);
-    Vue.set(state.stories[index], "likes", copyLikes);
+    Vue.set(state.stories[index], "likes", val.likes);
   },
 
   removeLikesOnStory(state, val) {
     const index = state.stories.findIndex(story => story.id == val.storyId);
-    var copyLikes = state.stories[index].likes.filter(id => id != val.userId);
+    var copyLikes = state.stories[index].likes.filter(
+      like => like.userId != val.userId
+    );
     Vue.set(state.stories[index], "likes", copyLikes);
   },
 
@@ -79,5 +79,9 @@ export default {
 
   setWeightsData(state, val) {
     state.weightsData = val;
+  },
+
+  toggleLoginError(state, val) {
+    state.loginError = val;
   }
 };

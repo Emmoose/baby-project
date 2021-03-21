@@ -1,0 +1,45 @@
+@import './../_global';
+
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(#333, 0.5);
+    z-index: 1;
+
+    &__header {
+      margin: 0;
+    }
+
+    &__content {
+      position: relative;
+      margin: auto;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 5px 0 rgba(#333, 0.5);
+      z-index: 999;
+    }
+
+    &__close {
+      z-index: 1;
+      position: absolute;
+      font-size: 12px;
+      font-weight: bold;
+      color: @white;
+      right: 8px;
+      top: 14px;
+      width: 20px;
+      height: 20px;
+      border-radius: 100%;
+      background: @ingrid-pink;;
+      padding-top: 3px;
+
+      &:hover {
+          cursor: pointer;
+      }
+    }
+    
+}

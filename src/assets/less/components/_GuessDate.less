@@ -1,39 +1,7 @@
 @import './../_global';
-/// Bemify
-.guess-date-modal {
-    display: flex;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(#333, 0.5);
-    z-index: 1;
 
-    &__content {
-      position: relative;
-      margin: auto;
-      width: 100%;
-      max-width: 400px;
-      background: #fff;
-      padding: 40px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px 0 rgba(#333, 0.5);
-      z-index: 999;
-    }
-
-    &__close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px;
-      cursor: pointer;
-      transition: 0.15s;
-
-      &:hover {
-        color: #000;
-      }
-    }
+.guess-date {
+    padding: @indent__m;
 
      &__text {
       font-size: 16px;
@@ -61,13 +29,4 @@
       margin-top: @indent__base;
       width: 100%;
     }
-  }
-
-  // Media query mobile screen sizes
-@media only screen and (max-width: @screen__m) {
-  .guess-date-modal {
-    &__content {
-      margin: auto @indent__base;
-    }
-  }
-}
+ }

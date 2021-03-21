@@ -1,5 +1,6 @@
 {
-  "projects":{
-    "default" : "baby-2103"
+  "projects": {
+    "default": "baby-2103",
+    "develop": "baby-2103-dev"
   }
 }
