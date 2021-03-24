@@ -29,6 +29,7 @@ export default {
       name: form.name,
       email: form.email,
       relation: "",
+      picked: "2", // default to both babies
       userId: user.uid
     });
 
@@ -71,7 +72,8 @@ export default {
     // eslint-disable-next-line
     const userRef = await fb.usersCollection.doc(userId).update({
       name: user.name,
-      relation: user.relation
+      relation: user.relation,
+      picked: user.picked
     });
 
     dispatch("fetchUserProfile", { uid: userId });
@@ -143,6 +145,7 @@ export default {
     await fb.storiesContentCollection.doc(payload.storyId).update({
       image: payload.image,
       story: payload.story,
+      pickedBaby: payload.pickedBaby,
       referenceImages: payload.referenceImages,
       userName: payload.userName
     });
@@ -153,9 +156,19 @@ export default {
     });
   },
 
-  async fetchStories({ commit }) {
+  async fetchStories({ commit, state }) {
+    var selected = [];
+    // Improve on this logic
+    console.log(state.userProfile);
+    if (state.userProfile.picked == "2") {
+      selected = ["0", "1", "2"];
+    } else {
+      selected = [state.userProfile.picked];
+    }
+
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
+      .where("pickedBaby", "in", selected) // 2 is for both options
       .limit(8);
     var stories = [];
 

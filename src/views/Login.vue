@@ -17,6 +17,7 @@
         <div>
           <label for="email1">E-post</label>
           <input
+            class="input-field"
             v-model.trim="loginForm.email"
             type="text"
             placeholder="din@e-post.com"
@@ -26,6 +27,7 @@
         <div>
           <label for="password1">Lösenord</label>
           <input
+            class="input-field"
             v-model.trim="loginForm.password"
             type="password"
             placeholder="******"
@@ -46,6 +48,7 @@
         <div>
           <label for="name">Namn</label>
           <input
+            class="input-field"
             v-model.trim="signupForm.name"
             type="text"
             placeholder="Ditt namn"
@@ -55,6 +58,7 @@
         <div>
           <label for="email2">E-post</label>
           <input
+            class="input-field"
             v-model.trim="signupForm.email"
             type="text"
             placeholder="din@e-post.com"
@@ -64,6 +68,7 @@
         <div>
           <label for="password2">Lösenord</label>
           <input
+            class="input-field"
             v-model.trim="signupForm.password"
             type="password"
             placeholder="Minst 6 tecken"

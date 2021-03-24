@@ -17,7 +17,7 @@
       <form @submit.prevent class="profile-settings__form">
         <label for="name">Namn</label>
         <input
-          class="profile-settings__input"
+          class="profile-settings__input input-field"
           v-model.trim="name"
           type="text"
           :placeholder="userProfile.name"
@@ -26,12 +26,33 @@
 
         <label for="relation">Relation</label>
         <input
-          class="profile-settings__input"
+          class="profile-settings__input input-field"
           v-model.trim="relation"
           type="text"
           :placeholder="userProfile.relation"
           id="relation"
         />
+        <h3 class="profile-settings__second-header">Synlighet</h3>
+        <form @submit.prevent class="profile-settings__visibility-form">
+          <p class="profile-settings__text">
+            Bestäm vilka bebisar som skall visas på "Poster"
+          </p>
+          <label class="radio-button">
+            Ingrid
+            <input type="radio" id="ingrid" value="0" v-model="picked" />
+            <span class="radio-button__checkmark"></span>
+          </label>
+          <label class="radio-button">
+            Axel
+            <input type="radio" id="axel" value="1" v-model="picked" />
+            <span class="radio-button__checkmark"></span>
+          </label>
+          <label class="radio-button">
+            Båda bebisarna
+            <input type="radio" id="both" value="2" v-model="picked" />
+            <span class="radio-button__checkmark"></span>
+          </label>
+        </form>
         <button
           @click="updateProfile()"
           class="profile-settings__form-button button"
@@ -93,18 +114,34 @@ export default {
     return {
       name: "",
       relation: "",
+
       showSuccess: false
     };
   },
   computed: {
-    ...mapState(["userProfile"])
+    ...mapState(["userProfile"]),
+
+    picked: {
+      get() {
+        return this.userProfile.picked;
+      },
+      set(value) {
+        this.$store.dispatch("updateProfile", {
+          name: this.name !== "" ? this.name : this.userProfile.name,
+          relation:
+            this.relation !== "" ? this.relation : this.userProfile.relation,
+          picked: value
+        });
+      }
+    }
   },
   methods: {
     updateProfile() {
       this.$store.dispatch("updateProfile", {
         name: this.name !== "" ? this.name : this.userProfile.name,
         relation:
-          this.relation !== "" ? this.relation : this.userProfile.relation
+          this.relation !== "" ? this.relation : this.userProfile.relation,
+        picked: this.picked !== "" ? this.picked : this.userProfile.picked
       });
 
       this.name = "";

@@ -12,7 +12,7 @@
         <input
           v-model="selectedDate"
           type="date"
-          class="guess-date__date-picker"
+          class="guess-date__date-picker input-field"
         />
         <button
           :disabled="selectedDate == ''"

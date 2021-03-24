@@ -6,7 +6,12 @@
         Fyll i E-post för att återställa lösenordet
       </p>
       <form @submit.prevent>
-        <input v-model.trim="email" type="email" placeholder="din@e-post.com" />
+        <input
+          v-model.trim="email"
+          type="email"
+          placeholder="din@e-post.com"
+          class="input-field"
+        />
       </form>
       <p v-if="errorMsg !== ''" class="reset-password__error">{{ errorMsg }}</p>
       <button @click="resetPassword()" class="button">Återställ</button>

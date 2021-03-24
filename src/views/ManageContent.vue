@@ -73,6 +73,26 @@
           label="Story here"
         />
       </form>
+      <form @submit.prevent class="create-story__select-baby">
+        <p class="create-story__text">
+          Posten tillhör
+        </p>
+        <label class="radio-button">
+          Ingrid
+          <input type="radio" id="ingrid" value="0" v-model="pickedBaby" />
+          <span class="radio-button__checkmark"></span>
+        </label>
+        <label class="radio-button">
+          Axel
+          <input type="radio" id="axel" value="1" v-model="pickedBaby" />
+          <span class="radio-button__checkmark"></span>
+        </label>
+        <label class="radio-button">
+          Båda
+          <input type="radio" id="both" value="2" v-model="pickedBaby" />
+          <span class="radio-button__checkmark"></span>
+        </label>
+      </form>
 
       <button
         v-if="!editMode"
@@ -99,13 +119,13 @@
       <form v-on:submit.prevent class="create-metric__weight-form" action="">
         <div class="create-metric__input-container">
           <input
-            class="create-metric__input"
+            class="input-field create-metric__input"
             name="length"
             type="number"
             v-model.number="weight"
             placeholder="vikt (in g)"
           />
-          <input v-model="weightDate" type="date" />
+          <input v-model="weightDate" type="date" class="input-field" />
         </div>
         <button
           :disabled="weight == null || weightDate == ''"
@@ -118,13 +138,13 @@
       <form v-on:submit.prevent class="create-metric__height-form" action="">
         <div class="create-metric__input-container">
           <input
-            class="create-metric__input"
+            class="input-field create-metric__input"
             name="height"
             type="number"
             v-model.number="height"
             placeholder="längd (in cm)"
           />
-          <input v-model="heightDate" type="date" />
+          <input v-model="heightDate" type="date" class="input-field" />
         </div>
         <button
           :disabled="height == null || heightDate == ''"
@@ -148,6 +168,7 @@ export default {
   data() {
     return {
       story: "",
+      pickedBaby: "",
       imageUrls: [],
       referenceImages: [],
       editMode: false,
@@ -220,7 +241,8 @@ export default {
         story: this.story,
         userName: this.$store.state.userProfile.name,
         userId: this.$store.state.userProfile.userId,
-        likes: []
+        likes: [],
+        pickedBaby: this.pickedBaby
       });
 
       this.imageUrls.forEach(imageUrl => {
@@ -269,6 +291,7 @@ export default {
       var payload = {
         image: this.imageUrls,
         story: this.story,
+        pickedBaby: this.pickedBaby,
         referenceImages: this.referenceImages,
         userName: this.$store.state.userProfile.name,
         storyId: this.editStory.storyId
@@ -316,6 +339,7 @@ export default {
         .get();
 
       this.story = doc.data().story;
+      this.pickedBaby = doc.data().pickedBaby;
       this.imageUrls = doc.data().image.slice();
       this.referenceImages = doc.data().referenceImages.slice();
 
