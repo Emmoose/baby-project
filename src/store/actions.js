@@ -158,9 +158,20 @@ export default {
 
   async fetchStories({ commit, state }) {
     var selected = [];
+    
     // Improve on this logic
-    console.log(state.userProfile);
-    if (state.userProfile.picked == "2") {
+    // This check is done because I have refetch the user incase the
+    // page is reload
+    var picked = state.userProfile.picked;
+    if (picked == undefined) {
+      const userProfile = await fb.usersCollection
+        .doc(fb.auth.currentUser.uid)
+        .get();
+
+      picked = userProfile.data().picked;
+    }
+
+    if (picked == "2") {
       selected = ["0", "1", "2"];
     } else {
       selected = [state.userProfile.picked];
