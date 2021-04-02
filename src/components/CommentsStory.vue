@@ -4,10 +4,18 @@
       <div class="show-comments__like-text">
         <button @click="likeStory" class="show-comments__like-button">
           <img
+            class="show-comments__svg-heart"
+            v-bind:class="{
+              'show-comments__svg-heart--animate': animateLike
+            }"
             v-if="userLikedPost"
             src="@/assets/svg-icons/stories__heart-fill.svg"
           />
           <img
+            class="show-comments__svg-heart"
+            v-bind:class="{
+              'show-comments__svg-heart--animate': animateLike
+            }"
             v-if="!userLikedPost"
             src="@/assets/svg-icons/stories__heart-outline.svg"
           />
@@ -95,7 +103,8 @@ export default {
       dynamicHeight: 44,
       showComments: false,
       userId: auth.currentUser.uid,
-      showWhoLiked: false
+      showWhoLiked: false,
+      animateLike: false
     };
   },
   computed: {
@@ -160,6 +169,8 @@ export default {
     },
 
     likeStory() {
+      this.animateLike = true;
+      setTimeout(() => (this.animateLike = false), 100);
       this.$store.dispatch("postLikesStory", this.storyId);
     }
   },

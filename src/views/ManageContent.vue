@@ -73,7 +73,7 @@
           label="Story here"
         />
       </form>
-      <form @submit.prevent class="create-story__select-baby">
+      <!-- <form @submit.prevent class="create-story__select-baby">
         <p class="create-story__text">
           Posten tillhör
         </p>
@@ -92,7 +92,7 @@
           <input type="radio" id="both" value="2" v-model="pickedBaby" />
           <span class="radio-button__checkmark"></span>
         </label>
-      </form>
+      </form> -->
 
       <button
         v-if="!editMode"
@@ -168,7 +168,7 @@ export default {
   data() {
     return {
       story: "",
-      pickedBaby: "",
+      pickedBaby: "0", // Harcoded for now
       imageUrls: [],
       referenceImages: [],
       editMode: false,

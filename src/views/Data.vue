@@ -3,7 +3,7 @@
     <div class="graphs card">
       <BabyMetricChart
         v-bind:data="weightsData"
-        v-bind:graph-title="'Bebisvikt (kg)'"
+        v-bind:graph-title="'Bebisvikt (g)'"
       />
     </div>
     <div class="graphs card">

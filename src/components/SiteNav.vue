@@ -36,6 +36,11 @@
             >
           </li>
           <li class="navigation-links__item">
+            <router-link class="navigation-links__link" to="/Data"
+              >Bebisdata</router-link
+            >
+          </li>
+          <li class="navigation-links__item">
             <router-link class="navigation-links__link" to="/guessed-date"
               >Gissade datum</router-link
             >

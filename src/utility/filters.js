@@ -9,5 +9,5 @@ Vue.filter("formatDate", val => {
   let date = val.toDate();
   return moment(date)
     .locale("sv")
-    .format("DD MMMM YYYY", "d MMMM YYYY");
+    .format("D MMMM YYYY", "d MMMM YYYY");
 });

@@ -12,6 +12,15 @@
             }
         }
 
+        &__svg-heart {
+            .transition(transform, 0.1s, linear);
+            transform: scale(1);
+
+            &--animate {
+               transform: scale(1.4);
+            }
+        }
+
         &__like-text {
             display: flex;
             align-items: center;

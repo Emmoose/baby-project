@@ -32,7 +32,7 @@
           :placeholder="userProfile.relation"
           id="relation"
         />
-        <h3 class="profile-settings__second-header">Synlighet</h3>
+        <!-- <h3 class="profile-settings__second-header">Synlighet</h3>
         <form @submit.prevent class="profile-settings__visibility-form">
           <p class="profile-settings__text">
             Bestäm vilka bebisar som skall visas på "Poster"
@@ -52,7 +52,7 @@
             <input type="radio" id="both" value="2" v-model="picked" />
             <span class="radio-button__checkmark"></span>
           </label>
-        </form>
+        </form> -->
         <button
           @click="updateProfile()"
           class="profile-settings__form-button button"

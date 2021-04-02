@@ -21,18 +21,12 @@
         <CommentsStory :storyId="story.id" v-bind:likes="story.likes" />
       </li>
     </ul>
-
-    <Modal v-if="showGuessDate" @close="closeShowGuessDate()"
-      ><GuessDate
-    /></Modal>
   </div>
 </template>
 
 <script>
 import CommentsStory from "@/components/CommentsStory";
 import ImageCarousel from "@/components/ImageCarousel";
-import GuessDate from "@/components/GuessDate";
-import Modal from "@/components/Modal";
 
 import { mapState } from "vuex";
 
@@ -40,18 +34,13 @@ export default {
   title: "babyGram - Poster",
   components: {
     CommentsStory,
-    ImageCarousel,
-    GuessDate,
-    Modal
+    ImageCarousel
   },
   computed: {
-    ...mapState(["stories", "lastLoadedStory", "userProfile", "showGuessDate"])
+    ...mapState(["stories", "lastLoadedStory", "userProfile"])
   },
 
   methods: {
-    closeShowGuessDate() {
-      this.$store.dispatch("updateShowGuessDate", false);
-    },
     editStory(storyId) {
       this.$store.dispatch("addEditStory", {
         storyId: storyId,
@@ -85,7 +74,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("fetchStories");
-    this.$store.dispatch("fetchGuessedDate");
     this.scrollToBottom();
   }
 };

@@ -10,10 +10,6 @@ export default {
     state.userLoggedIn = val;
   },
 
-  toggleShowGuessDate(state, val) {
-    state.showGuessDate = val;
-  },
-
   setGuessedDates(state, val) {
     state.guessedDates = val;
   },

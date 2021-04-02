@@ -9,7 +9,6 @@ const store = new Vuex.Store({
   state: {
     userProfile: {},
     userLoggedIn: false,
-    showGuessDate: false,
     loginError: false,
 
     // Stories

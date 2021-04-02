@@ -79,30 +79,6 @@ export default {
     dispatch("fetchUserProfile", { uid: userId });
   },
 
-  async fetchGuessedDate({ commit }) {
-    const userId = fb.auth.currentUser.uid;
-    const doc = await fb.guessDateCollection.doc(userId).get();
-    commit("toggleShowGuessDate", !doc.data().hasGuessedDate);
-  },
-
-  async updateShowGuessDate({ commit }, val) {
-    commit("toggleShowGuessDate", val);
-  },
-
-  // eslint-disable-next-line
-  async selectGuessedDate({commit, dispatch}, guessedDate) {
-    const userId = fb.auth.currentUser.uid;
-
-    var data = {
-      guessedDate: guessedDate,
-      createdOn: new Date(),
-      hasGuessedDate: true
-    };
-
-    await fb.guessDateCollection.doc(userId).update(data);
-    dispatch("fetchGuessedDates");
-  },
-
   async fetchGuessedDates({ commit }) {
     const docs = await fb.guessDateCollection.get();
     var datesArray = [];
@@ -155,14 +131,15 @@ export default {
       storyId: null
     });
   },
-
-  async fetchStories({ commit, state }) {
+  
+  async fetchStories({ commit }) {
     var selected = [];
-    
-    // Improve on this logic
+
     // This check is done because I have refetch the user incase the
     // page is reload
-    var picked = state.userProfile.picked;
+    // var picked = state.userProfile.picked;
+    //temp solution
+    var picked = "0";
     if (picked == undefined) {
       const userProfile = await fb.usersCollection
         .doc(fb.auth.currentUser.uid)
@@ -174,7 +151,8 @@ export default {
     if (picked == "2") {
       selected = ["0", "1", "2"];
     } else {
-      selected = [state.userProfile.picked];
+      // selected = [state.userProfile.picked];
+      selected = [picked];
     }
 
     const first = fb.storiesContentCollection
