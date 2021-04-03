@@ -29,7 +29,6 @@ export default {
       name: form.name,
       email: form.email,
       relation: "",
-      picked: "2", // default to both babies
       userId: user.uid
     });
 
@@ -131,15 +130,15 @@ export default {
       storyId: null
     });
   },
-  
-  async fetchStories({ commit }) {
+
+  async fetchStories({ commit, state }) {
     var selected = [];
 
     // This check is done because I have refetch the user incase the
     // page is reload
-    // var picked = state.userProfile.picked;
+    var picked = state.userProfile.picked;
     //temp solution
-    var picked = "0";
+
     if (picked == undefined) {
       const userProfile = await fb.usersCollection
         .doc(fb.auth.currentUser.uid)
@@ -148,16 +147,16 @@ export default {
       picked = userProfile.data().picked;
     }
 
-    if (picked == "2") {
+    if (picked == "2" || picked == undefined) {
+      // 2 is for both options
       selected = ["0", "1", "2"];
     } else {
-      // selected = [state.userProfile.picked];
       selected = [picked];
     }
 
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
-      .where("pickedBaby", "in", selected) // 2 is for both options
+      .where("pickedBaby", "in", selected)
       .limit(8);
     var stories = [];
 
