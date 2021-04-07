@@ -3,9 +3,6 @@
     <div class="profile-settings card">
       <div class="profile-settings__top-section">
         <h3 class="profile-settings__header">Profil</h3>
-        <button @click="logout" class="profile-settings__logout-button">
-          Logga ut
-        </button>
       </div>
 
       <transition name="fade">
@@ -32,27 +29,6 @@
           :placeholder="userProfile.relation"
           id="relation"
         />
-        <!-- <h3 class="profile-settings__second-header">Synlighet</h3>
-        <form @submit.prevent class="profile-settings__visibility-form">
-          <p class="profile-settings__text">
-            Bestäm vilka bebisar som skall visas på "Poster"
-          </p>
-          <label class="radio-button">
-            Ingrid
-            <input type="radio" id="ingrid" value="0" v-model="picked" />
-            <span class="radio-button__checkmark"></span>
-          </label>
-          <label class="radio-button">
-            Axel
-            <input type="radio" id="axel" value="1" v-model="picked" />
-            <span class="radio-button__checkmark"></span>
-          </label>
-          <label class="radio-button">
-            Båda bebisarna
-            <input type="radio" id="both" value="2" v-model="picked" />
-            <span class="radio-button__checkmark"></span>
-          </label>
-        </form> -->
         <button
           @click="updateProfile()"
           class="profile-settings__form-button button"

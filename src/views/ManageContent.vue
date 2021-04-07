@@ -73,27 +73,6 @@
           label="Story here"
         />
       </form>
-      <!-- <form @submit.prevent class="create-story__select-baby">
-        <p class="create-story__text">
-          Posten tillhör
-        </p>
-        <label class="radio-button">
-          Ingrid
-          <input type="radio" id="ingrid" value="0" v-model="pickedBaby" />
-          <span class="radio-button__checkmark"></span>
-        </label>
-        <label class="radio-button">
-          Axel
-          <input type="radio" id="axel" value="1" v-model="pickedBaby" />
-          <span class="radio-button__checkmark"></span>
-        </label>
-        <label class="radio-button">
-          Båda
-          <input type="radio" id="both" value="2" v-model="pickedBaby" />
-          <span class="radio-button__checkmark"></span>
-        </label>
-      </form> -->
-
       <button
         v-if="!editMode"
         :disabled="imageData == null"
