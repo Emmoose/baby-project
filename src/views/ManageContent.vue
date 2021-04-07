@@ -140,6 +140,7 @@
 <script>
 import firebase from "firebase";
 import * as fb from "../firebase";
+import imageCompression from "browser-image-compression";
 import { mapState } from "vuex";
 
 export default {
@@ -171,13 +172,22 @@ export default {
       this.$refs.input1.click();
     },
 
-    previewImage(event) {
+    async previewImage(event) {
       this.imageData = null;
       this.uploadValue = 0;
       this.imageData = event.target.files[0];
+      // Compress images to max of 0.5 MB
+      const options = {
+        maxSizeMB: 0.5
+      };
+
+      const compressedFile = await imageCompression(this.imageData, options);
+      this.imageData = compressedFile;
+
       const input = this.$refs.input1;
       input.type = "text";
       input.type = "file";
+
       this.onUpload();
       this.showImages = true;
     },

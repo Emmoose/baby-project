@@ -12,6 +12,7 @@
     "@firebase/messaging": "^0.7.3",
     "apexcharts": "^3.23.1",
     "axios": "^0.21.1",
+    "browser-image-compression": "^1.0.14",
     "core-js": "^3.6.5",
     "firebase": "^8.2.1",
     "moment": "^2.29.1",
