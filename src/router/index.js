@@ -82,6 +82,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
+  // auth.currentUser
+  //   .getIdToken(/* forceRefresh */ true)
+  //   .then(function(idToken) {
+  //     // Send token to your backend via HTTPS
+  //     // ...
+
+  //     console.log(idToken);
+
+  //     auth.verifyIdToken(idToken).then(claims => {
+  //       console.log(claims);
+  //       if (claims.admin === true) {
+  //         // Allow access to requested admin resource.
+  //       }
+  //     });
+  //   })
+  //   .catch(function() {
+  //     // Handle error
+  //   });
+
   if (requiresAuth && !auth.currentUser) {
     next("/login");
   } else {
