@@ -68,20 +68,6 @@ const routes = [
       import(/* webpackChunkName: "settings" */ "../views/ManageContent.vue"),
     meta: {
       requiresAuth: true
-    },
-    beforeEnter: (to, from, next) => {
-      auth.currentUser
-        .getIdTokenResult(/* forceRefresh */ true)
-        .then(function(tokenResult) {
-          if (tokenResult.claims.admin === true) {
-            next();
-          } else {
-            next("/");
-          }
-        })
-        .catch(function() {
-          next("/");
-        });
     }
   }
 ];
@@ -94,12 +80,27 @@ const router = new VueRouter({
 
 // navigation guard to check for logged in users
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
-  if (requiresAuth && !auth.currentUser) {
-    next("/login");
+  if (to.path === "/manage-content") {
+    auth.currentUser
+      .getIdTokenResult(/* forceRefresh */ true)
+      .then(function(tokenResult) {
+        if (tokenResult.claims.admin === true) {
+          next();
+        } else {
+          next("/");
+        }
+      })
+      .catch(function() {
+        next("/");
+      });
   } else {
-    next();
+    const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+    if (requiresAuth && !auth.currentUser) {
+      next("/login");
+    } else {
+      next();
+    }
   }
 });
 
