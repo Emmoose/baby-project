@@ -2,4 +2,4 @@
 /dist
 /src/utility/firebase-config.js
 baby-project.code-workspace
-.firebase/*
+/.firebase
