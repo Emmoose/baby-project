@@ -10,6 +10,10 @@ export default {
     state.userLoggedIn = val;
   },
 
+  setUserIsAdmin(state, val) {
+    state.userIsAdmin = val;
+  },
+
   setGuessedDates(state, val) {
     state.guessedDates = val;
   },

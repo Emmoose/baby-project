@@ -68,6 +68,20 @@ const routes = [
       import(/* webpackChunkName: "settings" */ "../views/ManageContent.vue"),
     meta: {
       requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      auth.currentUser
+        .getIdTokenResult(/* forceRefresh */ true)
+        .then(function(tokenResult) {
+          if (tokenResult.claims.admin === true) {
+            next();
+          } else {
+            next("/");
+          }
+        })
+        .catch(function() {
+          next("/");
+        });
     }
   }
 ];

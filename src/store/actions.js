@@ -47,6 +47,21 @@ export default {
     // fetch user profile
     const userProfile = await fb.usersCollection.doc(user.uid).get();
 
+    // Check if user is admin
+    fb.auth.currentUser
+      .getIdTokenResult(/* forceRefresh */ true)
+      .then(function(tokenResult) {
+        console.log(tokenResult);
+        if (tokenResult.claims.admin === true) {
+          commit("setUserIsAdmin", true);
+        } else {
+          commit("setUserIsAdmin", false);
+        }
+      })
+      .catch(function() {
+        commit("setUserIsAdmin", false);
+      });
+
     commit("setUserProfile", userProfile.data());
     commit("setUserLoggedIn", true);
 
