@@ -39,7 +39,7 @@
             /></router-link>
           </li>
 
-          <li class="navigation-links__item" v-if="isUserAdmin">
+          <li class="navigation-links__item" v-if="userIsAdmin">
             <router-link class="navigation-links__link" to="/manage-content">
               <img
                 class="navigation-links__svg-icon navigation-links__svg-icon--normal"
@@ -96,7 +96,6 @@
 
 <script>
 import { mapState } from "vuex";
-import config from "../utility/config";
 
 export default {
   data() {
@@ -118,14 +117,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["userProfile", "userLoggedIn"]),
-    isUserAdmin() {
-      // Check if logged in
-      if (this.userProfile) {
-        return config.adminEmails.includes(this.userProfile.email);
-      }
-      return false;
-    }
+    ...mapState(["userProfile", "userLoggedIn", "userIsAdmin"])
   }
 };
 </script>
