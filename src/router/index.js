@@ -80,6 +80,14 @@ const router = new VueRouter({
 
 // navigation guard to check for logged in users
 router.beforeEach((to, from, next) => {
+  // const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+  // if (requiresAuth && !auth.currentUser) {
+  //   next("/login");
+  // } else {
+  //   next();
+  // }
+
   if (to.path === "/manage-content") {
     auth.currentUser
       .getIdTokenResult(/* forceRefresh */ true)

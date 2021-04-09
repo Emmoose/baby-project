@@ -148,6 +148,7 @@ export default {
   data() {
     return {
       story: "",
+      userName: "",
       pickedBaby: "0", // Harcoded for now
       imageUrls: [],
       referenceImages: [],
@@ -218,6 +219,12 @@ export default {
           storageRef.snapshot.ref.getDownloadURL().then(url => {
             this.imageUrls.push(url);
             this.referenceImages.push(newImageName);
+
+            // Add link for album
+            this.$store.dispatch("addImageLink", {
+              createdOn: new Date(),
+              url: url
+            });
           });
         }
       );
@@ -232,13 +239,6 @@ export default {
         userId: this.$store.state.userProfile.userId,
         likes: [],
         pickedBaby: this.pickedBaby
-      });
-
-      this.imageUrls.forEach(imageUrl => {
-        this.$store.dispatch("addImageLink", {
-          createdOn: new Date(),
-          url: imageUrl
-        });
       });
 
       this.imageUrls = [];
@@ -256,6 +256,8 @@ export default {
       this.referenceImages = this.referenceImages.filter(
         ref => ref != this.referenceImages[index]
       );
+
+      this.$store.dispatch("removeImageLink", this.imageUrls[index]);
 
       this.imageUrls = this.imageUrls.filter(
         ref => ref != this.imageUrls[index]
@@ -282,7 +284,7 @@ export default {
         story: this.story,
         pickedBaby: this.pickedBaby,
         referenceImages: this.referenceImages,
-        userName: this.$store.state.userProfile.name,
+        userName: this.userName,
         storyId: this.editStory.storyId
       };
 
@@ -328,6 +330,7 @@ export default {
         .get();
 
       this.story = doc.data().story;
+      this.userName = doc.data().userName;
       this.pickedBaby = doc.data().pickedBaby;
       this.imageUrls = doc.data().image.slice();
       this.referenceImages = doc.data().referenceImages.slice();

@@ -257,6 +257,19 @@ export default {
     });
   },
 
+  // eslint-disable-next-line
+  async removeImageLink({ commit }, payload) {
+    console.log(payload);
+
+    const docs = await fb.allImageUrlsCollection
+      .where("url", "==", payload)
+      .get();
+
+    docs.forEach(doc => {
+      fb.allImageUrlsCollection.doc(doc.id).delete();
+    });
+  },
+
   async fetchImageLinks({ commit }) {
     const first = fb.allImageUrlsCollection
       .orderBy("createdOn", "desc")

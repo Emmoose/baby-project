@@ -8,7 +8,7 @@
             <p class="story__post-date">{{ story.createdOn | formatDate }}</p>
           </div>
           <a
-            v-if="story.userId == userProfile.userId"
+            v-if="userIsAdmin"
             class="story__edit-story"
             href="#"
             @click="editStory(story.id)"
@@ -37,7 +37,7 @@ export default {
     ImageCarousel
   },
   computed: {
-    ...mapState(["stories", "lastLoadedStory", "userProfile"])
+    ...mapState(["stories", "lastLoadedStory", "userIsAdmin"])
   },
 
   methods: {
