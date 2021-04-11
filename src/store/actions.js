@@ -187,7 +187,7 @@ export default {
   // eslint-disable-next-line
   async deleteStory({ commit, dispatch }, storyId) {
     const docs = await fb.storiesContentCollection.doc(storyId).get();
-    
+
     docs.data().image.forEach(url => dispatch("removeImageLink", url));
     docs.data().referenceImages.forEach(reference => {
       firebase

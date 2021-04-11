@@ -92,7 +92,6 @@ router.beforeEach((to, from, next) => {
     auth.currentUser
       .getIdTokenResult(/* forceRefresh */ true)
       .then(function(tokenResult) {
-        console.log(tokenResult);
         if (tokenResult.claims.admin === true) {
           next();
         } else {
