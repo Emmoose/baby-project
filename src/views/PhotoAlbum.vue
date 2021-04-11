@@ -10,9 +10,20 @@
           v-for="image in allImageUrls"
           :key="image.id"
         >
-          <img class="image-list__image" :src="image.url" />
+          <img
+            @click="openImage(image.url)"
+            class="image-list__image"
+            :src="image.url"
+          />
         </li>
       </ul>
+    </div>
+    <div
+      @click="toggleshowLargeImage()"
+      v-if="showLargeImage"
+      class="image-popup"
+    >
+      <img class="image-popup__image card" :src="largeImageUrl" />
     </div>
   </div>
 </template>
@@ -22,10 +33,28 @@ import { mapState } from "vuex";
 
 export default {
   title: "babyGram - Fotoalbum",
+  data() {
+    return {
+      largeImageUrl: "",
+      showLargeImage: false
+    };
+  },
   computed: {
     ...mapState(["allImageUrls", "lastLoadedImageUrl"])
   },
   methods: {
+    openImage(imageUrl) {
+      // only allow in desktop
+      if (window.innerWidth > 991) {
+        this.largeImageUrl = imageUrl;
+        this.showLargeImage = true;
+      }
+    },
+
+    toggleshowLargeImage() {
+      this.showLargeImage = !this.showLargeImage;
+    },
+
     scrollToBottom() {
       window.onscroll = () => {
         let bottomOfWindow =

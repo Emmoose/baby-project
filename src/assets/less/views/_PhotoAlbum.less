@@ -18,7 +18,6 @@
     flex-wrap: wrap;
     justify-content: center;
   
-
     &__image {
       width: 390px;
       height: 520px;
@@ -27,13 +26,32 @@
     }
   }
 
+  .image-popup {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 62px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &__image {
+      background-color: @white;
+      border: 1px solid @medium;
+      padding: @indent__base;
+      max-width: 80vh;
+      max-height: 92vh;
+    }
+  }
 }
 
 // Media query mobile screen sizes
 @media only screen and (max-width: @screen__m) {
   .photo-album-view {
     .image-album {
-      width: 100%;
+      width: auto;
+      max-width: 100%;
       margin: 0 @indent__xs;
       padding: @indent__base 0;
 
@@ -49,7 +67,10 @@
         height: auto;
         margin: @indent__xs 0;
         padding: 0 @indent__xs;
-        
+
+        &:hover {
+          cursor: default;
+        }
       }
     }
   

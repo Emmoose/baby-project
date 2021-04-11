@@ -26,6 +26,10 @@ export default {
     state.stories = val;
   },
 
+  deleteStory(state, val) {
+    state.stories = state.stories.filter(story => story.id != val.storyId);
+  },
+
   updateStories(state, val) {
     var storiesLength = state.stories.length;
 

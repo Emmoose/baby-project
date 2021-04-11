@@ -184,6 +184,12 @@ export default {
   },
 
   // eslint-disable-next-line
+  async deleteStory({ commit }, storyId) {
+    await fb.storiesContentCollection.doc(storyId).delete();
+    commit("deleteStory", { storyId });
+  },
+
+  // eslint-disable-next-line
   async postComment({ commit }, comment) {
     await fb.storiesCommentsCollection.add(comment);
   },
@@ -215,9 +221,15 @@ export default {
   },
 
   async subscribeLikes({ commit }, storyId) {
-    fb.storiesContentCollection.doc(storyId).onSnapshot(docs => {
-      commit("updateLikesOnStory", { likes: docs.data().likes, storyId });
-    });
+    const unsubscribe = fb.storiesContentCollection
+      .doc(storyId)
+      .onSnapshot(docs => {
+        if (docs.exists) {
+          commit("updateLikesOnStory", { likes: docs.data().likes, storyId });
+        } else {
+          unsubscribe();
+        }
+      });
   },
 
   async postLikesStory({ state }, storyId) {

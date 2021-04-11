@@ -7,13 +7,11 @@
             <p class="story__username">{{ story.userName }}</p>
             <p class="story__post-date">{{ story.createdOn | formatDate }}</p>
           </div>
-          <a
-            v-if="userIsAdmin"
-            class="story__edit-story"
-            href="#"
-            @click="editStory(story.id)"
-            >Redigera</a
-          >
+          <div v-if="userIsAdmin" class="story__edit-story">
+            <a href="#" @click="editStory(story.id)">Redigera</a>
+            <span>|</span>
+            <a href="#" @click="deleteStory(story.id)">Ta bort</a>
+          </div>
         </div>
 
         <ImageCarousel :imageList="story.image" />
@@ -51,6 +49,10 @@ export default {
       this.$router.push("/manage-content").catch(() => {
         this.$router.push("/manage-content");
       });
+    },
+
+    deleteStory(storyId) {
+      this.$store.dispatch("deleteStory", storyId);
     },
 
     scrollToBottom() {
