@@ -1,4 +1,5 @@
 import * as fb from "../firebase";
+import firebase from "firebase";
 import router from "../router/index";
 
 export default {
@@ -184,7 +185,19 @@ export default {
   },
 
   // eslint-disable-next-line
-  async deleteStory({ commit }, storyId) {
+  async deleteStory({ commit, dispatch }, storyId) {
+    const docs = await fb.storiesContentCollection.doc(storyId).get();
+    
+    docs.data().image.forEach(url => dispatch("removeImageLink", url));
+    docs.data().referenceImages.forEach(reference => {
+      firebase
+        .storage()
+        .ref(reference)
+        .delete();
+    });
+
+    // Also delete comments
+
     await fb.storiesContentCollection.doc(storyId).delete();
     commit("deleteStory", { storyId });
   },
@@ -271,8 +284,6 @@ export default {
 
   // eslint-disable-next-line
   async removeImageLink({ commit }, payload) {
-    console.log(payload);
-
     const docs = await fb.allImageUrlsCollection
       .where("url", "==", payload)
       .get();
