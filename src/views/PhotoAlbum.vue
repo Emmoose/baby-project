@@ -2,7 +2,8 @@
   <div class="photo-album-view page-wrapper">
     <div class="image-album card">
       <p class="image-album__info-text">
-        Samling av alla bilder som har lagts upp på poster.
+        Samling av alla bilder som har lagts upp på poster. Klicka på en bild
+        för att se den i full storlek.
       </p>
       <ul class="image-list">
         <li
@@ -11,7 +12,7 @@
           :key="image.id"
         >
           <img
-            @click="openImage(image.url)"
+            @click="openLargeImage(image.url)"
             class="image-list__image"
             :src="image.url"
           />
@@ -19,9 +20,10 @@
       </ul>
     </div>
     <div
-      @click="toggleshowLargeImage()"
       v-if="showLargeImage"
+      @click="closeLargeImage()"
       class="image-popup"
+      :class="showLargeImage ? 'image-popup--show' : ''"
     >
       <img class="image-popup__image card" :src="largeImageUrl" />
     </div>
@@ -43,7 +45,7 @@ export default {
     ...mapState(["allImageUrls", "lastLoadedImageUrl"])
   },
   methods: {
-    openImage(imageUrl) {
+    openLargeImage(imageUrl) {
       // only allow in desktop
       if (window.innerWidth > 991) {
         this.largeImageUrl = imageUrl;
@@ -51,8 +53,12 @@ export default {
       }
     },
 
-    toggleshowLargeImage() {
-      this.showLargeImage = !this.showLargeImage;
+    closeLargeImage() {
+      // only allow in desktop
+      if (window.innerWidth > 991) {
+        this.showLargeImage = false;
+        this.largeImageUrl = "";
+      }
     },
 
     scrollToBottom() {

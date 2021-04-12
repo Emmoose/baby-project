@@ -21,16 +21,13 @@
           v-for="(image, index) in imageUrls"
           v-bind:key="index"
         >
-          <h4 class="image-list__header">{{ `Image - ${index + 1}` }}</h4>
+          <div class="image-list__header">
+            <h4>{{ `Bild - #${index + 1}` }}</h4>
+            <a href="#" @click="deleteImage(index)">Ta bort bild</a>
+          </div>
+
           <div class="image-list__preview">
             <div class="image-list__image-container">
-              <button class="icon-trash" @click="deleteImage(index)">
-                <div class="icon-trash__trash-lid"></div>
-                <div class="icon-trash__trash-container"></div>
-                <div class="icon-trash__trash-line-1"></div>
-                <div class="icon-trash__trash-line-2"></div>
-                <div class="icon-trash__trash-line-3"></div>
-              </button>
               <img class="image-list__image" :src="image" />
             </div>
             <div

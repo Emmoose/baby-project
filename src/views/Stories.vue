@@ -9,7 +9,7 @@
           </div>
           <div v-if="userIsAdmin" class="story__edit-story">
             <a href="#" @click="editStory(story.id)">Redigera</a>
-            <span>|</span>
+            <span class="story__divider">|</span>
             <a href="#" @click="deleteStory(story.id)">Ta bort</a>
           </div>
         </div>
@@ -57,15 +57,17 @@ export default {
 
     scrollToBottom() {
       window.onscroll = () => {
+        console.log("at bottom");
         let bottomOfWindow =
           Math.max(
             window.pageYOffset,
             document.documentElement.scrollTop,
             document.body.scrollTop
           ) +
-            window.innerHeight ===
+            window.innerHeight +
+            600 >
           document.documentElement.offsetHeight;
-
+        console.log(bottomOfWindow);
         // Hacky fix here, remove this instead when loaded all
         // Instead of checking against undefined
         if (bottomOfWindow && this.lastLoadedStory != undefined) {

@@ -7,8 +7,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(#333, 0.5);
-    z-index: 1;
+    background: rgba(0,0,0, 0.5);
+    z-index: 10;
 
     &__header {
       margin: 0;
@@ -23,23 +23,16 @@
       z-index: 999;
     }
 
-    &__close {
-      z-index: 1;
+    &__svg-close {
+      width: 24px;
+      height: 24px;
       position: absolute;
-      font-size: 12px;
-      font-weight: bold;
-      color: @white;
-      right: 8px;
-      top: 14px;
-      width: 20px;
-      height: 20px;
-      border-radius: 100%;
-      background: @ingrid-pink;;
-      padding-top: 3px;
+      right: -10px;
+      top: -12px;
 
       &:hover {
-          cursor: pointer;
-      }
+        cursor: pointer;
+    }
     }
     
 }

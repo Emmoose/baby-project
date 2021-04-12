@@ -1,5 +1,5 @@
 @import './../_global';
-// BEMIFY waste bin
+
 .manage-content-view {
     .create-story,
     .create-metric {
@@ -79,7 +79,13 @@
         }
 
         &__header {
-            text-align: left;
+            display: flex;
+            padding: @indent__base;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid @input-border;
+            border-left: 1px solid @input-border;
+            border-right: 1px solid @input-border;
         }
 
         &__preview {
@@ -135,107 +141,7 @@
         }     
     }
 
-    .icon-trash {
-        width: 24px;
-        height: 24px;
-        position: absolute;
-        right: 0px;
-        overflow: hidden;
-        border: none;
-        opacity: 0.5;
-
-        &:hover {
-            cursor: pointer; 
-        }
-
-        &__trash-lid {
-            width: 62%;
-            height: 10%;
-            position: absolute;
-            left: 50%;
-            margin-left: -31%;
-            top: 10.5%;
-            background-color: @primary;
-            border-top-left-radius: 80%;
-            border-top-right-radius: 80%;
-            -webkit-transform: rotate(-5deg);
-            -moz-transform: rotate(-5deg);
-            -ms-transform: rotate(-5deg);
-            transform: rotate(-5deg);
-            
-            &:after {
-                content: "";
-                width: 26%;
-                height: 100%;
-                position: absolute;
-                left: 50%;
-                margin-left: -13%;
-                margin-top: -10%;
-                background-color: inherit;
-                border-top-left-radius: 30%;
-                border-top-right-radius: 30%;
-                -webkit-transform: rotate(-1deg);
-                -moz-transform: rotate(-1deg);
-                -ms-transform: rotate(-1deg);
-                transform: rotate(-1deg); 
-            }
-          }
-
-          &__trash-container {
-            width: 56%;
-            height: 65%;
-            position: absolute;
-            left: 50%;
-            margin-left: -28%;
-            bottom: 10%;
-            background-color: @primary;
-            border-bottom-left-radius: 15%;
-            border-bottom-right-radius: 15%;
-
-            &:after {
-                content: "";
-                width: 110%;
-                height: 12%;
-                position: absolute;
-                left: 50%;
-                margin-left: -55%;
-                top: 0;
-                background-color: inherit;
-                border-bottom-left-radius: 45%;
-                border-bottom-right-radius: 45%;
-            }
-          }
-
-          &__trash-line-1 {
-            width: 4%;
-            height: 50%;
-            position: absolute;
-            left: 38%;
-            margin-left: -2%;
-            bottom: 17%;
-            background-color: @white;
-          }
-
-          &__trash-line-2 {
-            width: 4%;
-            height: 50%;
-            position: absolute;
-            left: 50%;
-            margin-left: -2%;
-            bottom: 17%;
-            background-color: @white;
-          }
-
-          &__trash-line-3 {
-            width: 4%;
-            height: 50%;
-            position: absolute;
-            left: 62%;
-            margin-left: -2%;
-            bottom: 17%;
-            background-color: @white; 
-        }
-    }
+    
 
     .create-metric {
         margin-top: @indent__m;

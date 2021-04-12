@@ -53,13 +53,13 @@
             <div class="comment">
               <span>{{ comment.content }}</span>
             </div>
-            <div
+
+            <img
               v-if="comment.userId == userId"
               @click="deleteComment(comment)"
-              class="comments-list__comment-delete"
-            >
-              X
-            </div>
+              class="comments-list__svg-remove"
+              src="@/assets/svg-icons/remove.svg"
+            />
           </div>
         </li>
       </ul>
