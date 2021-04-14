@@ -151,7 +151,7 @@ export default {
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
       .where("pickedBaby", "in", ["0", "1", "2"]) // 2 is for both options
-      .limit(8);
+      .limit(4);
     var stories = [];
 
     const snapshot = await first.get();
@@ -166,9 +166,10 @@ export default {
     commit("setStories", stories);
   },
 
-  async fetchAdditionalStories({ commit, state }) {
+  async fetchAdditionalStories({ commit, dispatch, state }) {
     const next = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
+      .where("pickedBaby", "in", ["0", "1", "2"])
       .startAfter(state.lastLoadedStory.data().createdOn)
       .limit(4);
     var stories = [];
@@ -182,6 +183,11 @@ export default {
     });
 
     commit("updateStories", stories);
+    dispatch("setLoadMoreStories", true);
+  },
+
+  async setLoadMoreStories({ commit }, value) {
+    commit("setLoadMoreStories", value);
   },
 
   // eslint-disable-next-line
@@ -312,7 +318,7 @@ export default {
     commit("setImagesUrls", imageLinks);
   },
 
-  async fetchAdditionalImageLinks({ commit, state }) {
+  async fetchAdditionalImageLinks({ commit, dispatch, state }) {
     const next = fb.allImageUrlsCollection
       .orderBy("createdOn", "desc")
       .startAfter(state.lastLoadedImageUrl.data().createdOn)
@@ -329,6 +335,11 @@ export default {
     });
 
     commit("updateImagesUrls", imageLinks);
+    dispatch("setLoadMoreImages", true);
+  },
+
+  async setLoadMoreImages({ commit }, value) {
+    commit("setLoadMoreImages", value);
   },
 
   async addEditStory({ commit }, data) {

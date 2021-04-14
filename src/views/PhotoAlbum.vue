@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["allImageUrls", "lastLoadedImageUrl"])
+    ...mapState(["allImageUrls", "loadMoreImages", "lastLoadedImageUrl"])
   },
   methods: {
     openLargeImage(imageUrl) {
@@ -69,13 +69,19 @@ export default {
             document.documentElement.scrollTop,
             document.body.scrollTop
           ) +
-            window.innerHeight ===
+            window.innerHeight +
+            600 >
           document.documentElement.offsetHeight;
 
         // Hacky fix here, remove this instead when loaded all
         // Instead of checking against undefined
-        if (bottomOfWindow && this.lastLoadedImageUrl != undefined) {
+        if (
+          bottomOfWindow &&
+          this.lastLoadedImageUrl != undefined &&
+          this.loadMoreImages
+        ) {
           this.$store.dispatch("fetchAdditionalImageLinks");
+          this.$store.dispatch("setLoadMoreImages", false);
         }
       };
     }

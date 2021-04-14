@@ -35,7 +35,12 @@ export default {
     ImageCarousel
   },
   computed: {
-    ...mapState(["stories", "lastLoadedStory", "userIsAdmin"])
+    ...mapState([
+      "stories",
+      "lastLoadedStory",
+      "loadMoreStories",
+      "userIsAdmin"
+    ])
   },
 
   methods: {
@@ -57,7 +62,6 @@ export default {
 
     scrollToBottom() {
       window.onscroll = () => {
-        console.log("at bottom");
         let bottomOfWindow =
           Math.max(
             window.pageYOffset,
@@ -67,11 +71,15 @@ export default {
             window.innerHeight +
             600 >
           document.documentElement.offsetHeight;
-        console.log(bottomOfWindow);
         // Hacky fix here, remove this instead when loaded all
         // Instead of checking against undefined
-        if (bottomOfWindow && this.lastLoadedStory != undefined) {
+        if (
+          bottomOfWindow &&
+          this.lastLoadedStory != undefined &&
+          this.loadMoreStories
+        ) {
           this.$store.dispatch("fetchAdditionalStories");
+          this.$store.dispatch("setLoadMoreStories", false);
         }
       };
     }

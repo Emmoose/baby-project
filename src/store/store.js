@@ -16,10 +16,12 @@ const store = new Vuex.Store({
     stories: [],
     lastLoadedStory: {},
     storiesComments: {},
+    loadMoreStories: true,
 
     // Images
     lastLoadedImageUrl: {},
     allImageUrls: [],
+    loadMoreImages: true,
 
     // Edit mode settings
     editStory: {

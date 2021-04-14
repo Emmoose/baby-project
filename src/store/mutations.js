@@ -26,6 +26,10 @@ export default {
     state.stories = val;
   },
 
+  setLoadMoreStories(state, val) {
+    state.loadMoreStories = val;
+  },
+
   deleteStory(state, val) {
     state.stories = state.stories.filter(story => story.id != val.storyId);
   },
@@ -58,6 +62,10 @@ export default {
 
   setLastLoadedImageUrl(state, val) {
     state.lastLoadedImageUrl = val;
+  },
+
+  setLoadMoreImages(state, val) {
+    state.loadMoreImages = val;
   },
 
   setImagesUrls(state, val) {
