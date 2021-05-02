@@ -86,7 +86,6 @@ export default {
 
   mounted() {
     this.$store.dispatch("fetchImageLinks");
-    console.log(this.$refs.imageAlbum.clientHeight);
     this.scrollToBottom();
   }
 };
