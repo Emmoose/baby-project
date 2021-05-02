@@ -14,6 +14,10 @@ export default {
     state.userIsAdmin = val;
   },
 
+  setShowGlobalLoader(state, val) {
+    state.showGlobalLoader = val;
+  },
+
   setGuessedDates(state, val) {
     state.guessedDates = val;
   },

@@ -21,13 +21,12 @@
           v-for="(image, index) in imageUrls"
           v-bind:key="index"
         >
-          <div class="image-list__header">
-            <h4>{{ `Bild - #${index + 1}` }}</h4>
-            <a href="#" @click="deleteImage(index)">Ta bort bild</a>
-          </div>
-
           <div class="image-list__preview">
             <div class="image-list__image-container">
+              <div class="image-list__header">
+                <h4>{{ `Bild - #${index + 1}` }}</h4>
+                <a href="#" @click="deleteImage(index)">Ta bort bild</a>
+              </div>
               <img class="image-list__image" :src="image" />
             </div>
             <div
@@ -152,6 +151,7 @@ export default {
       editMode: false,
       imageData: null,
       showImages: false,
+      imageOrientation: "",
       height: null,
       heightDate: "",
       weight: null,
@@ -171,9 +171,23 @@ export default {
     },
 
     async previewImage(event) {
+      this.$store.dispatch("setShowGlobalLoader", { value: true });
       this.imageData = null;
       this.uploadValue = 0;
       this.imageData = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.readAsDataURL(this.imageData);
+      reader.onload = e => {
+        var image = new Image();
+        image.src = e.target.result;
+
+        // Set type of image depending on width and height
+        image.onload = () => {
+          this.imageOrientation =
+            image.width > image.height ? "landscape" : "portrait";
+        };
+      };
       // Compress images to max of 0.5 MB
       const options = {
         maxSizeMB: 0.5
@@ -220,11 +234,13 @@ export default {
             // Add link for album
             this.$store.dispatch("addImageLink", {
               createdOn: new Date(),
-              url: url
+              url: url,
+              imageOrientation: this.imageOrientation
             });
           });
         }
       );
+      this.$store.dispatch("setShowGlobalLoader", { value: false });
     },
     async createStory() {
       this.$store.dispatch("createStory", {

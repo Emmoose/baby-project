@@ -1,22 +1,14 @@
 <template>
   <div class="photo-album-view page-wrapper">
-    <div class="image-album card">
-      <p class="image-album__info-text">
-        Samling av alla bilder som har lagts upp på poster. Klicka på en bild
-        för att se den i full storlek.
-      </p>
+    <div class="image-album">
       <ul class="image-list">
-        <li
-          class="image-list__items"
+        <Photo
           v-for="image in allImageUrls"
           :key="image.id"
-        >
-          <img
-            @click="openLargeImage(image.url)"
-            class="image-list__image"
-            :src="image.url"
-          />
-        </li>
+          v-bind:photo-url="image.url"
+          v-bind:date-published="image.createdOn"
+          @open="openLargeImage(image.url)"
+        ></Photo>
       </ul>
     </div>
     <div
@@ -31,16 +23,21 @@
 </template>
 
 <script>
+import Photo from "@/components/Photo";
 import { mapState } from "vuex";
 
 export default {
   title: "babyGram - Fotoalbum",
+  components: {
+    Photo
+  },
   data() {
     return {
       largeImageUrl: "",
       showLargeImage: false
     };
   },
+
   computed: {
     ...mapState(["allImageUrls", "loadMoreImages", "lastLoadedImageUrl"])
   },
@@ -70,7 +67,7 @@ export default {
             document.body.scrollTop
           ) +
             window.innerHeight +
-            600 >
+            1600 >
           document.documentElement.offsetHeight;
 
         // Hacky fix here, remove this instead when loaded all
@@ -89,6 +86,7 @@ export default {
 
   mounted() {
     this.$store.dispatch("fetchImageLinks");
+    console.log(this.$refs.imageAlbum.clientHeight);
     this.scrollToBottom();
   }
 };

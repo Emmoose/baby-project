@@ -94,6 +94,10 @@ export default {
     dispatch("fetchUserProfile", { uid: userId });
   },
 
+  async setShowGlobalLoader({ commit }, { value }) {
+    commit("setShowGlobalLoader", value);
+  },
+
   async fetchGuessedDates({ commit }) {
     const docs = await fb.guessDateCollection.get();
     var datesArray = [];
@@ -151,7 +155,7 @@ export default {
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
       .where("pickedBaby", "in", ["0", "1", "2"]) // 2 is for both options
-      .limit(4);
+      .limit(8);
     var stories = [];
 
     const snapshot = await first.get();
@@ -284,7 +288,8 @@ export default {
   async addImageLink({ commit }, payload) {
     await fb.allImageUrlsCollection.add({
       createdOn: payload.createdOn,
-      url: payload.url
+      url: payload.url,
+      imageOrientation: payload.imageOrientation
     });
   },
 
@@ -302,7 +307,7 @@ export default {
   async fetchImageLinks({ commit }) {
     const first = fb.allImageUrlsCollection
       .orderBy("createdOn", "desc")
-      .limit(4);
+      .limit(16);
 
     var imageLinks = [];
 
@@ -322,7 +327,7 @@ export default {
     const next = fb.allImageUrlsCollection
       .orderBy("createdOn", "desc")
       .startAfter(state.lastLoadedImageUrl.data().createdOn)
-      .limit(2);
+      .limit(4);
 
     var imageLinks = [];
 

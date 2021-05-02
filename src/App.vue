@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <SiteNav v-if="showNav"></SiteNav>
+    <div v-show="showGlobalLoader" class="global-loader">
+      <div class="global-loader__spinner"></div>
+    </div>
     <router-view />
   </div>
 </template>
@@ -14,7 +17,7 @@ export default {
     SiteNav
   },
   computed: {
-    ...mapState(["userProfile"]),
+    ...mapState(["userProfile", "showGlobalLoader"]),
     showNav() {
       return Object.keys(this.userProfile).length > 1;
     }
@@ -22,25 +25,7 @@ export default {
 };
 </script>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="less" src="./assets/less/views/_App.less">
 
-#nav {
-  padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

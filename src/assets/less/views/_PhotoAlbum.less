@@ -1,19 +1,21 @@
 @import './../_global';
 
-.photo-album-view {  
+.photo-album-view {
+    max-width: 100%;
+    margin: 0;
+  
   .image-album {
-    background-color: @white;
-    padding: @indent__m 0;
-    width: 800px;
     margin: 0 auto @indent__s auto;
 
-    &__info-text {
+    &__info-text,
+    &__info-text-second {
       text-align: start;
       margin-left: @indent__base;
     }
   }
 
   .image-list {
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -34,6 +36,12 @@
     bottom: 0;
     background: rgba(0,0,0, 0.5);
     z-index: 10;
+
+    &--show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     &:hover {
       cursor: pointer;
@@ -61,6 +69,10 @@
 
       &__info-text {
         text-align: center;
+      }
+
+      &__info-text-second {
+        display: none;
       }
     }
 
