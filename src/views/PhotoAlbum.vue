@@ -115,7 +115,6 @@ export default {
 
     /* eslint-disable */
     goToSpecificMonth(month) {
-      console.log(month);
       const element = document.querySelectorAll(`[data-anchor='${month}']`);
       
       if (element.length > 0) {
@@ -126,7 +125,6 @@ export default {
           });
 
       } else {
-        console.log("IN HERE");
         this.$store.dispatch("fetchImageLinksTimeStamp", month);
       }
 
@@ -254,12 +252,11 @@ export default {
       today = new Date(),
       dates = [],
       numberMonths =
-        today.getMonth() +
-        1 -
+        today.getMonth() -
         startTime.getMonth() +
         12 * (today.getFullYear() - startTime.getFullYear());
 
-    var month = 1,
+    var month = 2,
       year = 21;
     for (let index = 0; index < numberMonths; index++) {
       month++;

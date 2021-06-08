@@ -325,15 +325,12 @@ export default {
 
       // Case 3 - Month selected - Load from beginning of month
     } else if (month) {
-      console.log("HERE in action");
       newDate = new Date(month);
       newDate.setMonth(newDate.getMonth() + 1); // Since going backwards
       newDate.setHours(0, 0, 0, 0);
     }
 
     startTime = newDate.getTime();
-    // console.log("STARTTIME", startTime);
-    // console.log("NEWDATE",newDate);
     monthEnd = imageRangesImported.IsValueAtEnd(startTime); // Check if month is at the end or middle
 
     const first = fb.allImageUrlsCollection
@@ -363,7 +360,6 @@ export default {
 
       // CASE 2 - month not empty and at end - Add images at end and scroll to there
     } else if (month != null && monthEnd) {
-      console.log(imageLinks);
       commit("updateImagesUrls", { imageLinks, listLocation: "new" });
       commit("setScrollToDate", month);
 
