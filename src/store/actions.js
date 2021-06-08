@@ -1,6 +1,7 @@
 import * as fb from "../firebase";
 import firebase from "firebase";
 import router from "../router/index";
+import imageRangesImported from "../utility/image-ranges";
 
 export default {
   async login({ dispatch, commit }, form) {
@@ -304,15 +305,43 @@ export default {
     });
   },
 
-  async fetchImageLinks({ commit }) {
+  // Times (startTime, endTime) are in milliseconds Unix epoch
+  // eslint-disable-next-line
+  async fetchImageLinksTimeStamp({ commit, dispatch }, month = null) {
+    dispatch("setLoadMoreImages", false);
+    const numberOfImages = 4;
+    var newDate,
+      startTime,
+      imageLinks = [],
+      monthEnd;
+
+    // Case 1 - No month and List is empty - Load from today
+    if (month == null && imageRangesImported.isListEmpty()) {
+      newDate = new Date();
+
+      // Case 2 - No month and List is not empty - Load endTime in last range
+    } else if (month == null && !imageRangesImported.isListEmpty()) {
+      newDate = new Date(imageRangesImported.getEndValue());
+
+      // Case 3 - Month selected - Load from beginning of month
+    } else if (month) {
+      console.log("HERE in action");
+      newDate = new Date(month);
+      newDate.setMonth(newDate.getMonth() + 1); // Since going backwards
+      newDate.setHours(0, 0, 0, 0);
+    }
+
+    startTime = newDate.getTime();
+    // console.log("STARTTIME", startTime);
+    // console.log("NEWDATE",newDate);
+    monthEnd = imageRangesImported.IsValueAtEnd(startTime); // Check if month is at the end or middle
+
     const first = fb.allImageUrlsCollection
       .orderBy("createdOn", "desc")
-      .limit(16);
-
-    var imageLinks = [];
+      .where("createdOn", "<", newDate)
+      .limit(numberOfImages);
 
     const snapshot = await first.get();
-    commit("setLastLoadedImageUrl", snapshot.docs[snapshot.docs.length - 1]);
 
     snapshot.forEach(doc => {
       let imageLink = doc.data();
@@ -320,27 +349,76 @@ export default {
       imageLinks.push(imageLink);
     });
 
-    commit("setImagesUrls", imageLinks);
+    // If last image then set endTime to 0 (Unix epoch)
+    var endTime =
+      imageLinks.length > 0
+        ? imageLinks[imageLinks.length - 1].createdOn.seconds * 1000
+        : 0;
+
+    imageRangesImported.addTimeRange(startTime, endTime);
+
+    // CASE 1 - month empty - Add images at end
+    if (month == null) {
+      commit("updateImagesUrls", { imageLinks, listLocation: "append" });
+
+      // CASE 2 - month not empty and at end - Add images at end and scroll to there
+    } else if (month != null && monthEnd) {
+      console.log(imageLinks);
+      commit("updateImagesUrls", { imageLinks, listLocation: "new" });
+      commit("setScrollToDate", month);
+
+      // CASE 3 - month not empty and at not end  - Insert images and scroll to there
+    } else if (month != null && !monthEnd) {
+      commit("insertImagesUrls", {
+        imageLinks,
+        listLocation: "newMonthIn"
+      });
+      // { imageLinks, listLocation: "newMonth" }
+      commit("setScrollToDate", month);
+    }
+
+    dispatch("setLoadMoreImages", true);
+
+    if (imageLinks.length < numberOfImages) {
+      commit("setLoadedLastImages", true);
+    }
   },
 
-  async fetchAdditionalImageLinks({ commit, dispatch, state }) {
-    const next = fb.allImageUrlsCollection
-      .orderBy("createdOn", "desc")
-      .startAfter(state.lastLoadedImageUrl.data().createdOn)
-      .limit(4);
+  // Times (timeStampTopView, timeStampBottomView) are in milliseconds Unix epoch
+  async fetchImageLinksTimeStampMiddle(
+    { commit, dispatch },
+    { timeStampTopView, timeStampBottomView }
+  ) {
+    const numberOfImages = 4,
+      imageLinks = [],
+      areTwoRegionsInView = imageRangesImported.areTwoRegionsInView(
+        timeStampTopView,
+        timeStampBottomView
+      );
 
-    var imageLinks = [];
+    if (areTwoRegionsInView.inView) {
+      var newDate = new Date(areTwoRegionsInView.endTimeTopRange);
+      const first = fb.allImageUrlsCollection
+        .orderBy("createdOn", "desc")
+        .where("createdOn", "<", newDate)
+        .limit(numberOfImages);
 
-    const snapshot = await next.get();
-    commit("setLastLoadedImageUrl", snapshot.docs[snapshot.docs.length - 1]);
-    snapshot.forEach(doc => {
-      let imageLink = doc.data();
-      imageLinks.id = doc.id;
-      imageLinks.push(imageLink);
-    });
+      const snapshot = await first.get();
 
-    commit("updateImagesUrls", imageLinks);
-    dispatch("setLoadMoreImages", true);
+      snapshot.forEach(doc => {
+        let imageLink = doc.data();
+        imageLink.id = doc.id;
+        imageLinks.push(imageLink);
+      });
+
+      imageRangesImported.addTimeRange(
+        areTwoRegionsInView.endTimeTopRange,
+        imageLinks[imageLinks.length - 1].createdOn.seconds * 1000
+      );
+
+      commit("insertImagesUrls", { imageLinks, listLocation: "center" });
+      dispatch("setLoadMoreImages", true);
+    }
   },
 
   async setLoadMoreImages({ commit }, value) {
@@ -349,6 +427,10 @@ export default {
 
   async addEditStory({ commit }, data) {
     commit("setEditStory", data);
+  },
+
+  async updateScrollToDate({ commit }, data) {
+    commit("setScrollToDate", data);
   },
 
   // Actions - Working with baby metrics

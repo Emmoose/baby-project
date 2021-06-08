@@ -20,9 +20,10 @@ const store = new Vuex.Store({
     loadMoreStories: true,
 
     // Images
-    lastLoadedImageUrl: {},
     allImageUrls: [],
     loadMoreImages: true,
+    scrollToDate: null,
+    loadedLastImage: false,
 
     // Edit mode settings
     editStory: {

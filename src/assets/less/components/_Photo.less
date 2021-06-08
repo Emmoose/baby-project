@@ -1,6 +1,25 @@
 @import './../_global';
 
 .photo {
+    position: relative;
+
+    &__published-date {
+        top: @indent__xs;
+        left: @indent__xs;
+        font-weight: 700;
+        position: absolute;
+        color: white;
+    }
+
+    // Testing purposes
+    // &.first {
+    //     border: 8px solid green;
+    // }
+
+    // &.last {
+    //     border: 8px solid red;
+    // }
+
     width: 317px;
     height: 420px;
     margin: 4px;
@@ -41,7 +60,6 @@
     .photo {
         width: 100%;
         height: auto;
-        min-height: 280px;
         margin: 2px;
 
         &__image {
