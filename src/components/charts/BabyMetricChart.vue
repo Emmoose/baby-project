@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-import moment from "moment";
 export default {
   name: "HelloWorld",
   props: {
@@ -53,7 +52,8 @@ export default {
           type: "datetime",
           labels: {
             formatter: function(timestamp) {
-              return moment(timestamp).format("D/M");
+              var tempDate = new Date(timestamp);
+              return `${tempDate.getDate()} / ${tempDate.getMonth() + 1}`;
             }
           }
         },

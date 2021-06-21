@@ -189,7 +189,7 @@ export default {
             timeStampBottomView: this.timeStampTwoRangesBottom * 1000
           });
         }
-      }, 500); //DO 500 LATER
+      }, 500); 
     },
 
     // Check timepstamp of images in viewPort to:

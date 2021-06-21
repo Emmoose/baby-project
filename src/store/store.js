@@ -31,8 +31,6 @@ const store = new Vuex.Store({
       storyId: null
     },
 
-    // Guessed Dates
-    guessedDates: [[], [], ""],
 
     // Baby Metrics
     heightsData: [],

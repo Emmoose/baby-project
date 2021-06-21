@@ -44,15 +44,6 @@ const routes = [
     }
   },
   {
-    path: "/guessed-date",
-    name: "guessedDate",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "../views/GuessedDate.vue"),
-    meta: {
-      title: "Guess Date"
-    }
-  },
-  {
     path: "/profile",
     name: "profle",
     component: () =>

@@ -18,10 +18,6 @@ export default {
     state.showGlobalLoader = val;
   },
 
-  setGuessedDates(state, val) {
-    state.guessedDates = val;
-  },
-
   setLastLoadedStory(state, val) {
     state.lastLoadedStory = val;
   },

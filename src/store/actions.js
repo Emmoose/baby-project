@@ -38,8 +38,7 @@ export default {
     // create record that user has not guessed that yet
     await fb.guessDateCollection.doc(user.uid).set({
       guessedDate: "",
-      createdOn: "",
-      hasGuessedDate: false
+      createdOn: ""
     });
 
     // fetch user profile and set in state
@@ -97,37 +96,6 @@ export default {
 
   async setShowGlobalLoader({ commit }, { value }) {
     commit("setShowGlobalLoader", value);
-  },
-
-  async fetchGuessedDates({ commit }) {
-    const docs = await fb.guessDateCollection.get();
-    var datesArray = [];
-    var dataArray = [];
-    var yourDate = "";
-
-    docs.forEach(doc => {
-      let date = doc.data();
-
-      if (fb.auth.currentUser.uid == doc.id) {
-        yourDate = date.guessedDate;
-      }
-      date.id = doc.id;
-
-      if (datesArray.includes(date.guessedDate) && date.guessedDate != "") {
-        var indexElement = datesArray.indexOf(date.guessedDate);
-        dataArray[indexElement] += 1;
-      } else if (date.guessedDate != "") {
-        datesArray.push(date.guessedDate);
-        dataArray.push(1);
-      }
-    });
-
-    datesArray.sort();
-
-    // Rename this at some point
-    var guessedDates = [datesArray, dataArray, yourDate];
-
-    commit("setGuessedDates", guessedDates);
   },
 
   // Actions - Working with stories

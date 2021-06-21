@@ -71,7 +71,7 @@
       </form>
       <button
         v-if="!editMode"
-        :disabled="imageData == null"
+        :disabled="imageUrls.length == 0"
         class="create-story__publish-story button"
         @click="createStory"
       >
@@ -153,9 +153,9 @@ export default {
       showImages: false,
       imageOrientation: "",
       height: null,
-      heightDate: "",
+      heightDate: null,
       weight: null,
-      weightDate: ""
+      weightDate: null
     };
   },
   computed: {
@@ -324,6 +324,7 @@ export default {
     },
 
     async addWeightDataPoint() {
+      console.log(this.weightDate);
       var tempDate = new Date(this.weightDate);
 
       this.$store.dispatch("addHeightDataPoint", {
@@ -357,6 +358,9 @@ export default {
       this.editMode = true;
       this.loadStoryToEdit();
     }
+    var tempTodayDate = new Date();
+    this.weightDate = tempTodayDate.toISOString().slice(0, 10);
+    this.heightDate = tempTodayDate.toISOString().slice(0, 10);
   }
 };
 </script>

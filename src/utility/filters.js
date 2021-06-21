@@ -1,5 +1,4 @@
 import Vue from "vue";
-import moment from "moment";
 
 const months = [
   "januari",
@@ -27,8 +26,6 @@ Vue.filter("yearAndMonth", val => {
   if (!val) {
     return "-";
   }
-
-  return moment(val)
-    .locale("sv")
-    .format("MMMM YYYY", "YYYY M");
+  var tempDate = new Date(val);
+  return `${months[tempDate.getMonth()]} ${tempDate.getFullYear()}`;
 });

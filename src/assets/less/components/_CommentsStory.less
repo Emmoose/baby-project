@@ -21,8 +21,14 @@
             }
         }
 
+        &__wrapper {
+            display: flex;
+            align-items: center;
+        }
+
         &__like-text {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
         }
 
@@ -37,6 +43,10 @@
             align-items: center;
             padding: @indent__base;
             border-top: 1px solid @input-border;
+        }
+
+        &__link {
+            margin-left: 28px;
         }
     }
 
