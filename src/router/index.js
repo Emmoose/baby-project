@@ -71,36 +71,36 @@ const router = new VueRouter({
 
 // navigation guard to check for logged in users
 router.beforeEach((to, from, next) => {
-  // const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
-  // if (requiresAuth && !auth.currentUser) {
-  //   next("/login");
-  // } else {
-  //   next();
-  // }
-
-  if (to.path === "/manage-content") {
-    auth.currentUser
-      .getIdTokenResult(/* forceRefresh */ true)
-      .then(function(tokenResult) {
-        if (tokenResult.claims.admin === true) {
-          next();
-        } else {
-          next("/");
-        }
-      })
-      .catch(function() {
-        next("/");
-      });
+  if (requiresAuth && !auth.currentUser) {
+    next("/login");
   } else {
-    const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
-    if (requiresAuth && !auth.currentUser) {
-      next("/login");
-    } else {
-      next();
-    }
+    next();
   }
+
+  // if (to.path === "/manage-content") {
+  //   auth.currentUser
+  //     .getIdTokenResult(/* forceRefresh */ true)
+  //     .then(function(tokenResult) {
+  //       if (tokenResult.claims.admin === true) {
+  //         next();
+  //       } else {
+  //         next("/");
+  //       }
+  //     })
+  //     .catch(function() {
+  //       next("/");
+  //     });
+  // } else {
+  //   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+  //   if (requiresAuth && !auth.currentUser) {
+  //     next("/login");
+  //   } else {
+  //     next();
+  //   }
+  // }
 });
 
 export default router;

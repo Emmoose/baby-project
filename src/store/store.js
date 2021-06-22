@@ -31,7 +31,6 @@ const store = new Vuex.Store({
       storyId: null
     },
 
-
     // Baby Metrics
     heightsData: [],
     weightsData: []

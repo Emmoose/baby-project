@@ -61,6 +61,10 @@
 import Photo from "@/components/Photo";
 import { mapState } from "vuex";
 
+import config from "@/utility/config";
+
+console.log(config);
+
 export default {
   title: "babyGram - Fotoalbum",
   components: {
@@ -248,7 +252,7 @@ export default {
 
     // Set up array for dates containing first of all months between 2021-02-01
     // and today
-    const startTime = new Date("2021-02-01"),
+    const startTime = new Date(config.startDatePhotoAlbum),
       today = new Date(),
       dates = [],
       numberMonths =

@@ -59,6 +59,7 @@ export default {
     );
     Vue.set(state.stories[index], "likes", copyLikes);
   },
+  
 
   setLoadMoreImages(state, val) {
     state.loadMoreImages = val;

@@ -1,3 +1,4 @@
 export default {
-  projectName: "babyGram"
+  projectName: "babyGram",
+  startDatePhotoAlbum: "2021-02-01"
 };

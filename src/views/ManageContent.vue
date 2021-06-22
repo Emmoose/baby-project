@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import firebase from "firebase";
 import * as fb from "../firebase";
 import imageCompression from "browser-image-compression";
 import { mapState } from "vuex";
@@ -212,10 +211,7 @@ export default {
         this.imageData.name.substring(0, this.imageData.name.lastIndexOf(".")) +
         endKey +
         this.imageData.name.substring(this.imageData.name.lastIndexOf("."));
-      const storageRef = firebase
-        .storage()
-        .ref(newImageName)
-        .put(this.imageData);
+      const storageRef = fb.storage.ref(newImageName).put(this.imageData);
       storageRef.on(
         `state_changed`,
         snapshot => {
@@ -261,10 +257,7 @@ export default {
     },
 
     deleteImage(index) {
-      firebase
-        .storage()
-        .ref(this.referenceImages[index])
-        .delete();
+      fb.storage.ref(this.referenceImages[index]).delete();
 
       this.referenceImages = this.referenceImages.filter(
         ref => ref != this.referenceImages[index]
@@ -324,7 +317,6 @@ export default {
     },
 
     async addWeightDataPoint() {
-      console.log(this.weightDate);
       var tempDate = new Date(this.weightDate);
 
       this.$store.dispatch("addHeightDataPoint", {

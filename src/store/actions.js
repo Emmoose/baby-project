@@ -1,6 +1,6 @@
 import * as fb from "../firebase";
-import firebase from "firebase";
 import router from "../router/index";
+import "firebase/auth";
 import imageRangesImported from "../utility/image-ranges";
 
 export default {
@@ -169,10 +169,7 @@ export default {
 
     docs.data().image.forEach(url => dispatch("removeImageLink", url));
     docs.data().referenceImages.forEach(reference => {
-      firebase
-        .storage()
-        .ref(reference)
-        .delete();
+      fb.storage.ref(reference).delete();
     });
 
     // Also delete comments
