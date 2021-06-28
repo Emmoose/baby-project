@@ -29,7 +29,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("fetchWeightDataPoint");
+    this.$store.dispatch("fetchWeightDataPoints");
     this.$store.dispatch("fetchHeightDataPoint");
   }
 };

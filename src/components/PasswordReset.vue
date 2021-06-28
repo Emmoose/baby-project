@@ -14,7 +14,7 @@
         />
       </form>
       <p v-if="errorMsg !== ''" class="reset-password__error">{{ errorMsg }}</p>
-      <button @click="resetPassword()" class="button">Återställ</button>
+      <button  @click="resetPassword()" class="button">Återställ</button>
     </div>
     <p v-else>Titta i mailboxen för en åteställningslänk.</p>
   </div>

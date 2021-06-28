@@ -170,7 +170,7 @@ export default {
     },
 
     async previewImage(event) {
-      this.$store.dispatch("setShowGlobalLoader", { value: true });
+      this.$store.commit("SET_SHOW_GLOBAL_LOADER",  true);
       this.imageData = null;
       this.uploadValue = 0;
       this.imageData = event.target.files[0];
@@ -236,7 +236,7 @@ export default {
           });
         }
       );
-      this.$store.dispatch("setShowGlobalLoader", { value: false });
+      this.$store.commit("SET_SHOW_GLOBAL_LOADER", false);
     },
     async createStory() {
       this.$store.dispatch("createStory", {

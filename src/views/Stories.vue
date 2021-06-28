@@ -7,7 +7,7 @@
             <p class="story__username">{{ story.userName }}</p>
             <p class="story__post-date">{{ story.createdOn | formatDate }}</p>
           </div>
-          <div v-if="userIsAdmin" class="story__edit-story">
+          <div v-if="true" class="story__edit-story">
             <a href="#" @click="editStory(story.id)">Redigera</a>
             <span class="story__divider">|</span>
             <a href="#" @click="deleteStory(story.id)">Ta bort</a>
@@ -45,7 +45,7 @@ export default {
 
   methods: {
     editStory(storyId) {
-      this.$store.dispatch("addEditStory", {
+      this.$store.commit("SET_EDIT_STORY", {
         storyId: storyId,
         editMode: true
       });
@@ -79,7 +79,7 @@ export default {
           this.loadMoreStories
         ) {
           this.$store.dispatch("fetchAdditionalStories");
-          this.$store.dispatch("setLoadMoreStories", false);
+          this.$store.commit("SET_LOAD_MORE_STORIES", false);
         }
       };
     }

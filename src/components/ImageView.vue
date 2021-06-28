@@ -1,28 +1,28 @@
 <template>
-  <li class="photo" v-bind:class="listClass">
-    <p class="photo__published-date">
-      <!-- <span>{{ createdOn.seconds }}</span> -->
+  <li
+    class="image"
+    v-bind:class="listClass"
+    :data-date="createdOn.seconds"
+    :data-anchor="anchorClass"
+    :data-location="location"
+  >
+    <p class="image__published-date">
       <span> {{ createdOn | formatDate }}</span>
     </p>
-    <div
-      :data-anchor="anchorClass"
-      :data-date="createdOn.seconds"
-      :data-location="location"
-    ></div>
     <img
       @click="$emit('open')"
-      class="photo__image"
-      v-bind:title=" createdOn | formatDate"
+      class="image__image"
+      v-bind:title="createdOn | formatDate"
       v-bind:class="{
-        'photo__image--loading': loading
+        'image__image--loading': loading
       }"
       :src="image.src"
       alt=""
     />
     <div
-      class="photo__spinner"
+      class="image__spinner"
       v-bind:class="{
-        'photo__spinner--loading': loading
+        'image__spinner--loading': loading
       }"
     ></div>
   </li>
@@ -47,11 +47,11 @@ export default {
   computed: {
     listClass() {
       return {
-        "photo--landscape": this.landscape,
-        "photo--loading": this.loading,
-        "first": this.location == "first",
-        "last": this.location == "last",
-        "middle": this.location == "middle"
+        "image--landscape": this.landscape,
+        "image--loading": this.loading,
+        first: this.location == "first",
+        last: this.location == "last",
+        middle: this.location == "middle"
       };
     },
 
@@ -77,4 +77,4 @@ export default {
   }
 };
 </script>
-<style lang="less" src="../assets/less/components/_Photo.less" scoped />
+<style lang="less" src="../assets/less/components/_ImageView.less" scoped />

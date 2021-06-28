@@ -2,6 +2,7 @@ import * as fb from "../firebase";
 import router from "../router/index";
 import "firebase/auth";
 import imageRangesImported from "../utility/image-ranges";
+import config from "../utility/config";
 
 export default {
   async login({ dispatch, commit }, form) {
@@ -12,9 +13,9 @@ export default {
         form.password
       );
       dispatch("fetchUserProfile", user);
-      commit("toggleLoginError", false);
+      commit("SET_LOGIN_ERROR", false);
     } catch (err) {
-      commit("toggleLoginError", true);
+      commit("SET_LOGIN_ERROR", true);
     }
 
     // fetch user profile and set in state
@@ -53,17 +54,17 @@ export default {
       .getIdTokenResult(/* forceRefresh */ true)
       .then(function(tokenResult) {
         if (tokenResult.claims.admin === true) {
-          commit("setUserIsAdmin", true);
+          commit("SET_USER_IS_ADMIN", true);
         } else {
-          commit("setUserIsAdmin", false);
+          commit("SET_USER_IS_ADMIN", false);
         }
       })
       .catch(function() {
-        commit("setUserIsAdmin", false);
+        commit("SET_USER_IS_ADMIN", false);
       });
 
-    commit("setUserProfile", userProfile.data());
-    commit("setUserLoggedIn", true);
+    commit("SET_USER_PROFILE", userProfile.data());
+    commit("SET_USER_LOGGED_IN", true);
 
     // change route to dashboard
     if (router.currentRoute.path === "/login") {
@@ -75,8 +76,8 @@ export default {
     await fb.auth.signOut();
 
     // clear user data from state
-    commit("setUserProfile", {});
-    commit("setUserLoggedIn", false);
+    commit("SET_USER_PROFILE", {});
+    commit("SET_USER_LOGGED_IN", false);
 
     // redirect to login view
     router.push("/login");
@@ -94,10 +95,6 @@ export default {
     dispatch("fetchUserProfile", { uid: userId });
   },
 
-  async setShowGlobalLoader({ commit }, { value }) {
-    commit("setShowGlobalLoader", value);
-  },
-
   // Actions - Working with stories
 
   // eslint-disable-next-line
@@ -105,7 +102,7 @@ export default {
     await fb.storiesContentCollection.add(payload);
   },
 
-  async updateStory({ dispatch }, payload) {
+  async updateStory({ commit }, payload) {
     await fb.storiesContentCollection.doc(payload.storyId).update({
       image: payload.image,
       story: payload.story,
@@ -114,7 +111,7 @@ export default {
       userName: payload.userName
     });
 
-    dispatch("addEditStory", {
+    commit("SET_EDIT_STORY", {
       editMode: false,
       storyId: null
     });
@@ -124,11 +121,11 @@ export default {
     const first = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
       .where("pickedBaby", "in", ["0", "1", "2"]) // 2 is for both options
-      .limit(8);
+      .limit(config.initialLoadStories);
     var stories = [];
 
     const snapshot = await first.get();
-    commit("setLastLoadedStory", snapshot.docs[snapshot.docs.length - 1]);
+    commit("SET_LAST_LOADED_STORY", snapshot.docs[snapshot.docs.length - 1]);
 
     snapshot.forEach(doc => {
       let story = doc.data();
@@ -136,10 +133,10 @@ export default {
       stories.push(story);
     });
 
-    commit("setStories", stories);
+    commit("SET_STORIES", stories);
   },
 
-  async fetchAdditionalStories({ commit, dispatch, state }) {
+  async fetchAdditionalStories({ commit, state }) {
     const next = fb.storiesContentCollection
       .orderBy("createdOn", "desc")
       .where("pickedBaby", "in", ["0", "1", "2"])
@@ -148,19 +145,15 @@ export default {
     var stories = [];
 
     const snapshot = await next.get();
-    commit("setLastLoadedStory", snapshot.docs[snapshot.docs.length - 1]);
+    commit("SET_LAST_LOADED_STORY", snapshot.docs[snapshot.docs.length - 1]);
     snapshot.forEach(doc => {
       let story = doc.data();
       story.id = doc.id;
       stories.push(story);
     });
 
-    commit("updateStories", stories);
-    dispatch("setLoadMoreStories", true);
-  },
-
-  async setLoadMoreStories({ commit }, value) {
-    commit("setLoadMoreStories", value);
+    commit("ADD_STORIES", stories);
+    commit("SET_LOAD_MORE_STORIES", true);
   },
 
   // eslint-disable-next-line
@@ -173,9 +166,15 @@ export default {
     });
 
     // Also delete comments
-
     await fb.storiesContentCollection.doc(storyId).delete();
-    commit("deleteStory", { storyId });
+    const docs2 = await fb.storiesCommentsCollection
+      .where("storyId", "==", storyId)
+      .get();
+
+    docs2.forEach(doc => {
+      fb.storiesCommentsCollection.doc(doc.id).delete();
+    });
+    commit("DELETE_STORY", { storyId });
   },
 
   // eslint-disable-next-line
@@ -200,7 +199,7 @@ export default {
           a.createdOn > b.createdOn ? 1 : -1
         );
 
-        commit("updateStoryComments", { storyComments, storyId });
+        commit("ADD_STORY_COMMENTS", { storyComments, storyId });
       });
   },
 
@@ -214,7 +213,7 @@ export default {
       .doc(storyId)
       .onSnapshot(docs => {
         if (docs.exists) {
-          commit("updateLikesOnStory", { likes: docs.data().likes, storyId });
+          commit("ADD_LIKES_ON_STORY", { likes: docs.data().likes, storyId });
         } else {
           unsubscribe();
         }
@@ -271,9 +270,8 @@ export default {
   },
 
   // Times (startTime, endTime) are in milliseconds Unix epoch
-  // eslint-disable-next-line
-  async fetchImageLinksTimeStamp({ commit, dispatch }, month = null) {
-    dispatch("setLoadMoreImages", false);
+  async fetchImageLinksWithTimeStamp({ commit }, month = null) {
+    commit("SET_LOAD_MORE_IMAGES", false);
     const numberOfImages = 4;
     var newDate,
       startTime,
@@ -321,33 +319,33 @@ export default {
 
     // CASE 1 - month empty - Add images at end
     if (month == null) {
-      commit("updateImagesUrls", { imageLinks, listLocation: "append" });
+      commit("ADD_IMAGES_URLS", { imageLinks, listLocation: "append" });
 
       // CASE 2 - month not empty and at end - Add images at end and scroll to there
     } else if (month != null && monthEnd) {
-      commit("updateImagesUrls", { imageLinks, listLocation: "new" });
-      commit("setScrollToDate", month);
+      commit("ADD_IMAGES_URLS", { imageLinks, listLocation: "new" });
+      commit("SET_SCROLL_TO_DATE", month);
 
       // CASE 3 - month not empty and at not end  - Insert images and scroll to there
     } else if (month != null && !monthEnd) {
-      commit("insertImagesUrls", {
+      commit("INSERT_IMAGE_URLS", {
         imageLinks,
         listLocation: "newMonthIn"
       });
       // { imageLinks, listLocation: "newMonth" }
-      commit("setScrollToDate", month);
+      commit("SET_SCROLL_TO_DATE", month);
     }
 
-    dispatch("setLoadMoreImages", true);
+    commit("SET_LOAD_MORE_IMAGES", true);
 
     if (imageLinks.length < numberOfImages) {
-      commit("setLoadedLastImages", true);
+      commit("SET_LOADED_LAST_IMAGE", true);
     }
   },
 
   // Times (timeStampTopView, timeStampBottomView) are in milliseconds Unix epoch
-  async fetchImageLinksTimeStampMiddle(
-    { commit, dispatch },
+  async fetchImageLinksWithTimeStampMiddle(
+    { commit },
     { timeStampTopView, timeStampBottomView }
   ) {
     const numberOfImages = 4,
@@ -377,21 +375,13 @@ export default {
         imageLinks[imageLinks.length - 1].createdOn.seconds * 1000
       );
 
-      commit("insertImagesUrls", { imageLinks, listLocation: "center" });
-      dispatch("setLoadMoreImages", true);
+      commit("INSERT_IMAGE_URLS", { imageLinks, listLocation: "center" });
+      commit("SET_LOAD_MORE_IMAGES", true);
     }
   },
 
-  async setLoadMoreImages({ commit }, value) {
-    commit("setLoadMoreImages", value);
-  },
-
   async addEditStory({ commit }, data) {
-    commit("setEditStory", data);
-  },
-
-  async updateScrollToDate({ commit }, data) {
-    commit("setScrollToDate", data);
+    commit("SET_EDIT_STORY", data);
   },
 
   // Actions - Working with baby metrics
@@ -416,7 +406,7 @@ export default {
 
     heightsData = heightsData.sort((a, b) => a.x - b.x);
 
-    commit("setHeightsData", heightsData);
+    commit("SET_HEIGHT_DATA", heightsData);
   },
 
   // eslint-disable-next-line
@@ -427,7 +417,7 @@ export default {
     });
   },
 
-  async fetchWeightDataPoint({ commit }) {
+  async fetchWeightDataPoints({ commit }) {
     const docs = await fb.weightCollection.get();
     var weightsData = [];
 
@@ -439,6 +429,6 @@ export default {
     });
 
     weightsData = weightsData.sort((a, b) => a.x - b.x);
-    commit("setWeightsData", weightsData);
+    commit("SET_WEIGHT_DATA", weightsData);
   }
 };

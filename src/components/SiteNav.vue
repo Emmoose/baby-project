@@ -12,9 +12,11 @@
           <li class="navigation-links__item">
             <router-link class="navigation-links__link" to="/">
               <img
+                alt="Link to stories"
                 class="navigation-links__svg-icon navigation-links__svg-icon--normal"
                 src="@/assets/svg-icons/camera.svg"/>
               <img
+                alt="Link to stories"
                 class="navigation-links__svg-icon navigation-links__svg-icon--active"
                 src="@/assets/svg-icons/camera--filled.svg"
             /></router-link>
@@ -22,8 +24,10 @@
           <li class="navigation-links__item">
             <router-link class="navigation-links__link" to="/photo-album"
               ><img
+                alt="Link to photo album"
                 class="navigation-links__svg-icon navigation-links__svg-icon--normal"
                 src="@/assets/svg-icons/gallery.svg"/><img
+                alt="Link to photo album"
                 class="navigation-links__svg-icon navigation-links__svg-icon--active"
                 src="@/assets/svg-icons/gallery--filled.svg"
             /></router-link>
@@ -31,9 +35,11 @@
           <li class="navigation-links__item">
             <router-link class="navigation-links__link" to="/Data">
               <img
+                alt="Link to graphs"
                 class="navigation-links__svg-icon navigation-links__svg-icon--normal"
                 src="@/assets/svg-icons/trend.svg"/>
               <img
+                alt="Link to graphs"
                 class="navigation-links__svg-icon navigation-links__svg-icon--active"
                 src="@/assets/svg-icons/trend--filled.svg"
             /></router-link>
@@ -42,8 +48,10 @@
           <li class="navigation-links__item" v-if="userIsAdmin">
             <router-link class="navigation-links__link" to="/manage-content">
               <img
+                alt="Link to content-management"
                 class="navigation-links__svg-icon navigation-links__svg-icon--normal"
                 src="@/assets/svg-icons/content-management.svg"/><img
+                alt="Link to content-management"
                 class="navigation-links__svg-icon navigation-links__svg-icon--active"
                 src="@/assets/svg-icons/content-management--filled.svg"
             /></router-link>
@@ -55,10 +63,12 @@
             >
               <img
                 v-if="!showUserMenu"
+                alt="Link to user profile"
                 class="navigation-links__svg-icon navigation-links"
                 src="@/assets/svg-icons/user.svg"
               /><img
                 v-if="showUserMenu"
+                alt="Link to user profile"
                 class="navigation-links__svg-icon navigation-links"
                 src="@/assets/svg-icons/user--filled.svg"
               />

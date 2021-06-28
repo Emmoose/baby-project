@@ -33,17 +33,16 @@
         />
       </div>
     </div>
-    <div id="image-album" class="image-album" ref="imagealbum">
+    <div class="image-album">
       <ul class="image-list">
-        <Photo
+        <ImageView
           v-for="image in allImageUrls"
           :key="image.id"
-          v-bind:image-data="image"
           v-bind:location="image.location"
           v-bind:image-url="image.url"
           v-bind:created-on="image.createdOn"
           @open="openLargeImage(image.url)"
-        ></Photo>
+        ></ImageView>
       </ul>
     </div>
     <div
@@ -58,17 +57,15 @@
 </template>
 
 <script>
-import Photo from "@/components/Photo";
+import ImageView from "@/components/ImageView";
 import { mapState } from "vuex";
 
 import config from "@/utility/config";
 
-console.log(config);
-
 export default {
   title: "babyGram - Fotoalbum",
   components: {
-    Photo
+    ImageView
   },
   data() {
     return {
@@ -87,7 +84,6 @@ export default {
     ...mapState([
       "allImageUrls",
       "loadMoreImages",
-      "lastLoadedImageUrl",
       "scrollToDate",
       "loadedLastImages"
     ])
@@ -129,7 +125,7 @@ export default {
           });
 
       } else {
-        this.$store.dispatch("fetchImageLinksTimeStamp", month);
+        this.$store.dispatch("fetchImageLinksWithTimeStamp", month);
       }
 
       // Close menu on click if mobile
@@ -147,7 +143,6 @@ export default {
         // Check if need to scroll to new section
 
         if (this.scrollToDate) {
-          console.log(this.scrollToDate);
           const element = document.querySelectorAll(
             `[data-anchor='${this.scrollToDate}']`
           )[0];
@@ -158,7 +153,7 @@ export default {
             behavior: "smooth"
           });
 
-          this.$store.dispatch("updateScrollToDate", null);
+          this.$store.commit("SET_SCROLL_TO_DATE", null);
         }
 
         var foundTwoRanges = this.checkImagesInView();
@@ -184,11 +179,11 @@ export default {
           this.loadMoreImages &&
           !this.loadedLastImages
         ) {
-          this.$store.dispatch("fetchImageLinksTimeStamp");
+          this.$store.dispatch("fetchImageLinksWithTimeStamp");
 
           // Check if should load more because two ranges are in viewport
         } else if (this.loadMoreImages && foundTwoRanges) {
-          this.$store.dispatch("fetchImageLinksTimeStampMiddle", {
+          this.$store.dispatch("fetchImageLinksWithTimeStampMiddle", {
             timeStampTopView: this.timeStampTwoRangesTop * 1000,
             timeStampBottomView: this.timeStampTwoRangesBottom * 1000
           });
@@ -247,7 +242,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("fetchImageLinksTimeStamp");
+    this.$store.dispatch("fetchImageLinksWithTimeStamp");
     this.setupPeriodicallyCheckImages();
 
     // Set up array for dates containing first of all months between 2021-02-01

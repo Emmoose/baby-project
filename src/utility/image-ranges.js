@@ -2,6 +2,10 @@
 // CHECK ALL EVEN RANGES
 // MAKE SURE NOT DEPENDENT ON EACH OTHER? RIGHT NOW THEY ARE
 
+// CASES:
+// 1 - 
+
+
 export default {
   // LinkHead - top of LinkedList - format next: object|null, startTime: time|null , time|null}
   linkedHead: null,
@@ -28,10 +32,6 @@ export default {
   // return object { inView: boolean, endTimeTopRange: null|number }
   //
   areTwoRegionsInView: function(firstTime, secondTime) {
-    // if (firstTime < secondTime) {
-    //   throw "firstTime must be larger than secondTime!";
-    // }
-
     var linkedTemp = this.linkedHead,
       data = { inView: false, endTimeTopRange: null };
 
