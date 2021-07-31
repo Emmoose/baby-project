@@ -13,26 +13,21 @@
             <a href="#" @click="deleteStory(story.id)">Ta bort</a>
           </div>
         </div>
-
-        <ImageCarousel :imageList="story.image" />
-        <p class="story__text">{{ story.story }}</p>
-        <CommentsStory :storyId="story.id" v-bind:likes="story.likes" />
+        <Story :story="story" />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import CommentsStory from "@/components/CommentsStory";
-import ImageCarousel from "@/components/ImageCarousel";
+import Story from "@/components/Story";
 
 import { mapState } from "vuex";
 
 export default {
   title: "babyGram - Poster",
   components: {
-    CommentsStory,
-    ImageCarousel
+    Story
   },
   computed: {
     ...mapState([
