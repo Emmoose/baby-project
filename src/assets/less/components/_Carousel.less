@@ -38,7 +38,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: @indent__s;
+      margin-top: @indent__sm;
+      position: relative;
     }
 
     &__button {
@@ -77,9 +78,11 @@
     }
 
     &__number {
-      padding: @indent__s;
-      text-align: right;
-      font-size: 1.4rem;
+      color: @dark;
+      position: absolute;
+      right: 8px;
+      bottom: 36px;
+      font-size: 1.0rem;
     }
   }
   

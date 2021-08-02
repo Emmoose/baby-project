@@ -26,6 +26,9 @@
     </div>
 
     <div class="carousel__navigation">
+      <div v-if="listLength > 1" class="carousel__number">
+        {{ `Bild ${currentPage + 1} / ${listLength}` }}
+      </div>
       <button
         type="button"
         aria-label="Previous page"
@@ -66,9 +69,6 @@
       >
         Nästa
       </button>
-    </div>
-    <div class="carousel__number">
-      {{ `Bild ${currentPage + 1} / ${listLength}` }}
     </div>
   </div>
 </template>
