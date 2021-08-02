@@ -2,42 +2,42 @@
   <div class="comment-story">
     <div class="show-comments__comments-status">
       <div class="show-comments__like-text">
+        <button
+          aria-label="show comments"
+          @click="likeStory"
+          class="show-comments__like-button"
+        >
+          <img
+            alt="Unlike story"
+            class="show-comments__svg-heart"
+            v-bind:class="{
+              'show-comments__svg-heart--animate': animateLike
+            }"
+            v-if="userLikedPost"
+            src="@/assets/svg-icons/stories__heart-fill.svg"
+          />
+          <img
+            alt="Like story"
+            class="show-comments__svg-heart"
+            v-bind:class="{
+              'show-comments__svg-heart--animate': animateLike
+            }"
+            v-if="!userLikedPost"
+            src="@/assets/svg-icons/stories__heart-outline.svg"
+          />
+        </button>
         <div class="show-comments__wrapper">
-          <button
-            aria-label="show comments"
-            @click="likeStory"
-            class="show-comments__like-button"
-          >
-            <img
-              alt="Unlike story"
-              class="show-comments__svg-heart"
-              v-bind:class="{
-                'show-comments__svg-heart--animate': animateLike
-              }"
-              v-if="userLikedPost"
-              src="@/assets/svg-icons/stories__heart-fill.svg"
-            />
-            <img
-              alt="Like story"
-              class="show-comments__svg-heart"
-              v-bind:class="{
-                'show-comments__svg-heart--animate': animateLike
-              }"
-              v-if="!userLikedPost"
-              src="@/assets/svg-icons/stories__heart-outline.svg"
-            />
-          </button>
           <span v-show="likes.length > 0" class="show-comments__total-number"
-            >Gillat av {{ this.likedText }}</span
+            >Gillat av <strong>{{ this.likedText }}</strong> och
+            <a
+              class="show-comments__link"
+              @click="toggleShowWhoLiked"
+              v-show="likes.length > 1"
+            >
+              flera
+            </a></span
           >
         </div>
-        <a
-          class="show-comments__link"
-          @click="toggleShowWhoLiked"
-          v-show="likes.length > 1"
-        >
-          och flera
-        </a>
       </div>
       <a
         class="show-comments__comments-link"

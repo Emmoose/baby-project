@@ -8,8 +8,6 @@ import "./assets/less/app.less";
 import "@/plugins/apexcharts";
 import "@/utility/filters.js";
 import "@/utility/directives.js";
-import VueCarousel from "vue-carousel";
-Vue.use(VueCarousel);
 Vue.mixin(titleMixin);
 Vue.config.productionTip = false;
 
