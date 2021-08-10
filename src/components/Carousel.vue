@@ -30,6 +30,7 @@
         {{ `Bild ${currentPage + 1} / ${listLength}` }}
       </div>
       <button
+        v-if="listLength > 1"
         type="button"
         aria-label="Previous page"
         :tabindex="currentPage > 0 ? 0 : -1"
@@ -58,6 +59,7 @@
       </div>
 
       <button
+        v-if="listLength > 1" 
         type="button"
         aria-label="Next page"
         :tabindex="offset < maxOffset ? 0 : -1"
