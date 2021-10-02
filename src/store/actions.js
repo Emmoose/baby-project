@@ -394,21 +394,6 @@ export default {
     });
   },
 
-  async fetchHeightDataPoint({ commit }) {
-    const docs = await fb.heightCollection.get();
-    var heightsData = [];
-
-    docs.forEach(doc => {
-      let height = doc.data();
-      height.id = doc.id;
-      heightsData.push({ y: height.height, x: height.createdOn });
-    });
-
-    heightsData = heightsData.sort((a, b) => a.x - b.x);
-
-    commit("SET_HEIGHT_DATA", heightsData);
-  },
-
   // eslint-disable-next-line
   async addHeightDataPoints({ commit }, payload) {
     await fb.heightCollection.add({
@@ -417,18 +402,46 @@ export default {
     });
   },
 
-  async fetchWeightDataPoints({ commit }) {
-    const docs = await fb.weightCollection.get();
-    var weightsData = [];
+  async fetchChartDataPoints({ commit }) {
+    const docs1 = await fb.heightCollection.get(),
+      docs2 = await fb.weightCollection.get();
 
-    docs.forEach(doc => {
+    var heightsData = [],
+      weightsData = [],
+      mergedArray = [],
+      tempNewDataPoint,
+      tempHeight;
+
+    docs1.forEach(doc => {
+      let height = doc.data();
+      height.id = doc.id;
+      heightsData.push({ y: height.height, x: height.createdOn });
+    });
+
+    docs2.forEach(doc => {
       let weight = doc.data();
       weight.id = doc.id;
 
       weightsData.push({ y: weight.weight, x: weight.createdOn });
     });
 
-    weightsData = weightsData.sort((a, b) => a.x - b.x);
-    commit("SET_WEIGHT_DATA", weightsData);
+    // Bad solution, assuming weight has all times in length
+    weightsData.forEach(dataWeight => {
+      (tempNewDataPoint = { timeStamp: dataWeight.x, weight: dataWeight.y }),
+        (tempHeight = heightsData.filter(
+          dataHeight => dataHeight.x == dataWeight.x
+        ));
+      if (tempHeight[0]) {
+        tempNewDataPoint.height = tempHeight[0].y;
+      }
+
+      mergedArray.push(tempNewDataPoint);
+    });
+
+    mergedArray = mergedArray.sort(
+      (timeA, timeB) => timeA.timeStamp - timeB.timeStamp
+    );
+
+    commit("SET_BABY_DATA", mergedArray);
   }
 };

@@ -1,36 +1,15 @@
 <template>
   <div class="data-view page-wrapper">
-    <div class="graphs card">
-      <BabyMetricChart
-        v-bind:data="weightsData"
-        v-bind:graph-title="'Bebisvikt (g)'"
-      />
-    </div>
-    <div class="graphs card">
-      <BabyMetricChart
-        v-bind:data="heightsData"
-        v-bind:graph-title="'Bebislängd (cm)'"
-      />
-    </div>
+    <BabyChart />
   </div>
 </template>
-
 <script>
-import BabyMetricChart from "@/components/charts/BabyMetricChart";
-import { mapState } from "vuex";
+import BabyChart from "@/components/BabyChart";
 
 export default {
   title: "BabyGram - Bebisdata",
   components: {
-    BabyMetricChart
-  },
-  computed: {
-    ...mapState(["heightsData", "weightsData"])
-  },
-
-  mounted() {
-    this.$store.dispatch("fetchWeightDataPoints");
-    this.$store.dispatch("fetchHeightDataPoint");
+    BabyChart
   }
 };
 </script>

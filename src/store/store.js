@@ -32,8 +32,7 @@ const store = new Vuex.Store({
     },
 
     // Baby Metrics
-    heightsData: [],
-    weightsData: []
+    babyData: []
   },
   mutations,
   actions

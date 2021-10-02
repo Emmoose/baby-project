@@ -5,7 +5,9 @@
         <div class="story__post-information">
           <div>
             <p class="story__username">{{ story.userName }}</p>
-            <p class="story__post-date">{{ story.createdOn | formatDate }}</p>
+            <p class="story__post-date">
+              {{ story.createdOn | formatDate }}
+            </p>
           </div>
           <div v-if="true" class="story__edit-story">
             <a href="#" @click="editStory(story.id)">Redigera</a>

@@ -146,15 +146,11 @@ export default {
     state.editStory = val;
   },
 
-  SET_HEIGHT_DATA(state, val) {
-    state.heightsData = val;
-  },
-
-  SET_WEIGHT_DATA(state, val) {
-    state.weightsData = val;
-  },
-
   SET_LOGIN_ERROR(state, val) {
     state.loginError = val;
+  },
+
+  SET_BABY_DATA(state, val) {
+    state.babyData = val;
   }
 };

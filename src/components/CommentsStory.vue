@@ -29,7 +29,7 @@
         <div class="show-comments__wrapper">
           <span v-show="likes.length > 0" class="show-comments__total-number"
             >Gillat av <strong>{{ this.likedText }}</strong>
-            <span v-if="likes.length > 1">och</span>
+            <span v-if="likes.length > 1"> och</span>
             <a
               class="show-comments__link"
               @click="toggleShowWhoLiked"
