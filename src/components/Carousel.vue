@@ -23,6 +23,14 @@
           <img :src="image" />
         </div>
       </div>
+      <img
+        alt="Like image"
+        class="carousel__like-img"
+        v-bind:class="{
+          'carousel__like-img--show': showAnimation
+        }"
+        src="@/assets/svg-icons/stories__heart-fill.svg"
+      />
     </div>
 
     <div class="carousel__navigation">
@@ -59,7 +67,7 @@
       </div>
 
       <button
-        v-if="listLength > 1" 
+        v-if="listLength > 1"
         type="button"
         aria-label="Next page"
         :tabindex="offset < maxOffset ? 0 : -1"
@@ -104,7 +112,8 @@ export default {
       offset: 0,
       refreshRate: 16,
       minSwipeDistance: 8,
-      resistanceCoef: 2
+      resistanceCoef: 2,
+      showAnimation: false
     };
   },
   computed: {
@@ -239,6 +248,8 @@ export default {
       const deltaX = this.dragStartX - eventPosX;
 
       if (deltaX == 0) {
+        this.showAnimation = true;
+        setTimeout(() => (this.showAnimation = false), 400);
         this.$emit("liked-story");
       }
 

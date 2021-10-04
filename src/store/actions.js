@@ -408,40 +408,37 @@ export default {
 
     var heightsData = [],
       weightsData = [],
-      mergedArray = [],
       tempNewDataPoint,
-      tempHeight;
+      tempIndex;
 
     docs1.forEach(doc => {
       let height = doc.data();
       height.id = doc.id;
-      heightsData.push({ y: height.height, x: height.createdOn });
+      heightsData.push({ height: height.height, timeStamp: height.createdOn });
     });
 
     docs2.forEach(doc => {
       let weight = doc.data();
       weight.id = doc.id;
 
-      weightsData.push({ y: weight.weight, x: weight.createdOn });
+      weightsData.push({ weight: weight.weight, timeStamp: weight.createdOn });
     });
 
-    // Bad solution, assuming weight has all times in length
-    weightsData.forEach(dataWeight => {
-      (tempNewDataPoint = { timeStamp: dataWeight.x, weight: dataWeight.y }),
-        (tempHeight = heightsData.filter(
-          dataHeight => dataHeight.x == dataWeight.x
-        ));
-      if (tempHeight[0]) {
-        tempNewDataPoint.height = tempHeight[0].y;
+    while ((tempNewDataPoint = heightsData.pop()) != undefined) {
+      tempIndex = weightsData.findIndex(
+        dataPoint => dataPoint.timeStamp === tempNewDataPoint.timeStamp
+      );
+
+      if (tempIndex != -1) {
+        weightsData[tempIndex].height = tempNewDataPoint.height;
+      } else {
+        weightsData.push(tempNewDataPoint);
       }
+    }
 
-      mergedArray.push(tempNewDataPoint);
-    });
-
-    mergedArray = mergedArray.sort(
+    weightsData = weightsData.sort(
       (timeA, timeB) => timeA.timeStamp - timeB.timeStamp
     );
-
-    commit("SET_BABY_DATA", mergedArray);
+    commit("SET_BABY_DATA", weightsData);
   }
 };

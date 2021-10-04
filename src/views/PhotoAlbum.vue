@@ -10,16 +10,17 @@
         <li
           class="album-links__list-item"
           v-for="date in firstOfMonthDates"
-          :key="date"
+          :key="date.timeStamp"
         >
           <a
             class="album-links__link"
             v-bind:class="{
-              'album-links__link--observed': date == currentObservedMonth
+              'album-links__link--observed':
+                date.monthText == currentObservedMonth
             }"
             href=""
-            @click.prevent="goToSpecificMonth(date)"
-            >{{ date | yearAndMonth }}</a
+            @click.prevent="goToSpecificMonth(date.monthText)"
+            >{{ date.monthText | yearAndMonth }}</a
           >
         </li>
       </ul>
@@ -58,12 +59,14 @@
 
 <script>
 import ImageView from "@/components/ImageView";
+import calcDateRangeMixin from "@/mixins/calcDateRangeMixin";
 import { mapState } from "vuex";
 
 import config from "@/utility/config";
 
 export default {
   title: "babyGram - Fotoalbum",
+  mixins: [calcDateRangeMixin],
   components: {
     ImageView
   },
@@ -245,29 +248,8 @@ export default {
     this.$store.dispatch("fetchImageLinksWithTimeStamp");
     this.setupPeriodicallyCheckImages();
 
-    // Set up array for dates containing first of all months between 2021-02-01
-    // and today
-    const startTime = new Date(config.startDatePhotoAlbum),
-      today = new Date(),
-      dates = [],
-      numberMonths =
-        today.getMonth() -
-        startTime.getMonth() +
-        12 * (today.getFullYear() - startTime.getFullYear());
-
-    var month = 2,
-      year = 21;
-    for (let index = 0; index < numberMonths; index++) {
-      month++;
-      dates.push(`20${year}-${String(month).padStart('2', 0)}`);
-
-      if (month % 12 == 0) {
-        year++;
-        month = 0;
-      }
-    }
-    
-    this.firstOfMonthDates = dates.reverse();
+    // Set up array for dates containing first of all months between 2021-02-01 and today
+    this.firstOfMonthDates = this.createMonthLabels(config.startDatePhotoAlbum).reverse();
   },
   beforeDestroy() {
     clearInterval(this.timerId);
