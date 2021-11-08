@@ -1,0 +1,95 @@
+@import "./../_global";
+
+.board {
+  &__container {
+    --tan: 0.2;
+    // --d: 6.5em; /* image size */
+    --d: 65px; /* image size */
+    --rel: 1; /* how much extra space we want between images, 1 = one image size */
+    --r: calc(
+      0.5 * (1 + var(--rel)) * var(--d) / var(--tan)
+    ); /* circle radius */
+    --r2: calc(
+      0.3 * (1 + var(--rel)) * var(--d) / var(--tan)
+    ); /* circle radius */
+    --s: calc(2 * var(--r) + var(--d)); /* container size */
+    position: relative;
+    width: var(--s);
+    height: var(--s);
+    background: burlywood;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+  }
+
+  &__center {
+    width: 320px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: white;
+  }
+
+  &__question {
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+    border: 2px solid lightblue;
+    padding: @indent__base;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__answer,
+  &__option {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: calc(-0.5 * var(--d));
+    width: var(--d);
+    height: var(--d);
+    --az: calc(var(--i) * 1turn / var(--m));
+    display: flex;
+    align-items: center; // CAN THIS BE DONE WITHOUT FLEX?
+    justify-content: center;
+  }
+
+  &__answer-button,
+  &__answer-text {
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+  }
+
+  &__answer-text {
+    background-color: white;
+    display: flex;
+    align-items: center; // CAN THIS BE DONE WITHOUT FLEX?
+    justify-content: center;
+  }
+
+  &__answer-button {
+    background-color: black;
+  }
+
+  // MERGE 2 BELOW
+  &__option {
+    transform: rotate(var(--az)) translate(var(--r2))
+      rotate(calc(-1 * var(--az)));
+  }
+
+  &__answer {
+    transform: rotate(var(--az)) translate(var(--r))
+      rotate(calc(-1 * var(--az)));
+  }
+}
+
+// @media only screen and (max-width: @screen__m) {
+//   .board__container {
+//     --d: 52px; /* image size */
+//   }
+// }

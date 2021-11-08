@@ -1,19 +1,11 @@
 <template>
   <div class="login-view">
-    <div class="hero-area">
-      <h1>babyGram</h1>
-      <img class="hero-area__image" src="@/assets/images/start-page2.png" />
-    </div>
-    <div
-      :class="{ 'signup-form': !showLoginForm }"
-      class="col2 authentication-area"
-    >
+    <div :class="{ 'signup-form': !showLoginForm }" class="authentication-area">
       <form
         class="authentication-area__form"
         v-if="showLoginForm"
         @submit.prevent
       >
-        <h1 class="authentication-area__header">Hej, Välkommen!</h1>
         <div>
           <label for="email1">E-post</label>
           <input
