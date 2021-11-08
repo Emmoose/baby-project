@@ -1,7 +1,11 @@
 <template>
   <div class="modal">
     <div class="modal__content">
-      <button @click="$emit('close')">Close</button>
+      <img
+        @click="$emit('close')"
+        class="modal__svg-close"
+        src="@/assets/svg-icons/remove.svg"
+      />
       <slot></slot>
     </div>
   </div>

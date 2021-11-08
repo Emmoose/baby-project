@@ -1,0 +1,204 @@
+@import './../_global';
+
+.manage-content-view {
+    .create-story,
+    .create-metric {
+        margin: 0 auto;
+        width: 800px;
+        padding: @indent__m;
+        border: 1px solid @input-border;
+        background-color: @white; 
+        position: relative;   
+    }
+
+    .create-story {
+        &__header {
+            margin-bottom: @indent__s;
+            text-align: left;
+        }
+
+        &__info {
+            margin-bottom: @indent__m;
+            text-align: left;
+        }
+
+        &__file-uploader {
+            display: none;
+        }
+
+        &__upload-container {
+            align-items: center;
+            display: flex;
+            margin-bottom: @indent__base;
+        }
+
+        &__image-placeholder {
+            flex-grow: 1;
+            background-color: @light;
+            border: 1px solid @input-border;
+            padding: @indent__base;
+            margin-right: @indent__base;
+        }
+
+        &__upload-image {
+            margin-left: auto;
+            display: block;
+            min-width: auto;
+
+            &--plus-sign {
+                font-size: 20px;
+                font-weight: 700;
+                width: 34px;
+                height: 34px;
+                padding-top: 4px;
+            }
+        }
+
+        &__text {
+            font-weight: 700;
+            margin-right: @indent__s;
+        }
+
+        &__select-baby {
+            margin: @indent__m 0;
+            display: flex;
+        }
+
+        &__publish-story {
+            margin-top: @indent__base;
+            margin-left: auto;
+            display: block;
+        }
+    }
+
+    .image-list {
+        &__item {
+            list-style: none;
+            margin-bottom: @indent__base;
+        }
+
+        &__header {
+            display: flex;
+            padding: @indent__base;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid @input-border;
+        }
+
+        &__preview {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__image-container {
+            width: 100%;
+            position: relative;
+        }
+
+        &__image {
+            height: auto;
+            width: 100%;
+        }
+
+        &__move-button-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            width: 44px;
+        }
+
+        &__move-button {
+            min-width: auto;
+            margin-bottom: @indent__base;
+            height: 34px;
+            width: 34px;
+
+            &--up::after,
+            &--down:after {
+                content: "";
+                display: block;
+                border-right: 2px solid white;
+                border-top: 2px solid white;
+                height: 12px;
+                width: 12px;
+                margin-left: 1px;
+            }
+
+            &--up::after {
+                margin-top: 6px;
+                transform: rotate(-45deg);
+            }
+
+            &--down:after {
+                margin-bottom: 6px;
+                transform: rotate(135deg);
+            }
+        }     
+    }
+
+    
+
+    .create-metric {
+        margin-top: @indent__m;
+
+        &__header {
+            margin-bottom: @indent__s;
+            text-align: left;
+        }
+
+        &__info {
+            margin-bottom: @indent__m;
+            text-align: left;
+        }
+
+        &__input-container {
+            display: flex;
+            margin: @indent__m 0;
+        }
+
+        .create-metric__input {
+            margin-right: @indent__base;
+        }
+
+        .create-metric__upload-button {
+            display: block;
+            margin-left: auto;
+        }
+    }
+}
+
+// Media query mobile screen sizes
+@media only screen and (max-width: @screen__m) {
+    .manage-content-view {
+        margin: @indent__base @indent__xs;
+
+        .messages {
+            width: 100%;
+        }
+
+        .create-story,
+        .create-metric {
+            width: 100%;
+            padding: @indent__base;
+        }
+
+        .create-story__publish-story {
+            width: 100%;
+        }
+
+        .create-metric {
+            &__input-container {
+                margin: 0;
+            }
+
+            &__height-form {
+                margin-top: @indent__base;
+            }
+
+            &__upload-button {
+                width: 100%;
+            }
+        }
+    }
+}

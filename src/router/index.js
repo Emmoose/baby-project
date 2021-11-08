@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Game from "../views/Game.vue";
+import Stories from "../views/Stories.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter);
@@ -8,14 +8,22 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Game",
-    component: Game
+    name: "Stories",
+    component: Stories,
+    meta: {
+      requiresAuth: true,
+      title: "Stories"
+    }
   },
   {
-    path: "/settings",
-    name: "Settings",
+    path: "/data",
+    name: "Data",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Settings.vue")
+      import(/* webpackChunkName: "login" */ "../views/Data.vue"),
+    meta: {
+      requiresAuth: true,
+      title: "Data"
+    }
   },
   {
     path: "/login",
@@ -27,12 +35,29 @@ const routes = [
     }
   },
   {
-    path: "/admin",
-    name: "Admin",
+    path: "/photo-album",
+    name: "photoAlbum",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Admin.vue"),
+      import(/* webpackChunkName: "login" */ "../views/PhotoAlbum.vue"),
     meta: {
-      title: "Admin",
+      title: "Photo Album"
+    }
+  },
+  {
+    path: "/profile",
+    name: "profle",
+    component: () =>
+      import(/* webpackChunkName: "settings" */ "../views/Profile.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/manage-content",
+    name: "manageContent",
+    component: () =>
+      import(/* webpackChunkName: "settings" */ "../views/ManageContent.vue"),
+    meta: {
       requiresAuth: true
     }
   }
@@ -46,36 +71,36 @@ const router = new VueRouter({
 
 // navigation guard to check for logged in users
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  // const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
 
-  if (requiresAuth && !auth.currentUser) {
-    next("/login");
+  // if (requiresAuth && !auth.currentUser) {
+  //   next("/login");
+  // } else {
+  //   next();
+  // }
+
+  if (to.path === "/manage-content") {
+    auth.currentUser
+      .getIdTokenResult(/* forceRefresh */ true)
+      .then(function(tokenResult) {
+        if (tokenResult.claims.admin === true) {
+          next();
+        } else {
+          next("/");
+        }
+      })
+      .catch(function() {
+        next("/");
+      });
   } else {
-    next();
+    const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
+    if (requiresAuth && !auth.currentUser) {
+      next("/login");
+    } else {
+      next();
+    }
   }
-
-  //   if (to.path === "/manage-content") {
-  //     auth.currentUser
-  //       .getIdTokenResult(/* forceRefresh */ true)
-  //       .then(function(tokenResult) {
-  //         if (tokenResult.claims.admin === true) {
-  //           next();
-  //         } else {
-  //           next("/");
-  //         }
-  //       })
-  //       .catch(function() {
-  //         next("/");
-  //       });
-  //   } else {
-  //     const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
-  //     if (requiresAuth && !auth.currentUser) {
-  //       next("/login");
-  //     } else {
-  //       next();
-  //     }
-  //   }
 });
 
 export default router;

@@ -3,8 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store/store";
 import { auth } from "./firebase";
+import titleMixin from "./mixins/titleMixin";
 import "./assets/less/app.less";
-
+import "@/utility/filters.js";
+import "@/utility/directives.js";
+Vue.mixin(titleMixin);
 Vue.config.productionTip = false;
 
 let app;

@@ -2,35 +2,30 @@
 
 // resets
 
-@import "./_variables.less";
-@import "./_form.less";
-@import "./_mixins.less";
-
-body,
-html,
-#app {
-  height: 100%;
-}
+@import './_variables.less';
+@import './_form.less';
+@import './_mixins.less';
 
 body {
-  margin: 0;
-  color: @dark;
+	margin: 0;
+	color: @dark;
+	background: @background;
 }
 
 html {
-  line-height: 1.15;
-  font-size: 10px;
-  -webkit-text-size-adjust: 100%;
+	line-height: 1.15;
+	font-size: 10px;
+	-webkit-text-size-adjust: 100%;
 }
 
 * {
-  font-family: "Open Sans", sans-serif;
-  box-sizing: border-box;
-  transition: 0.15s;
+	font-family: 'Open Sans', sans-serif;
+	box-sizing: border-box;
+	transition: 0.15s;
 
-  &:focus {
-    outline: none;
-  }
+	&:focus {
+		outline: none;
+	}
 }
 
 // fonts
@@ -40,113 +35,146 @@ h3,
 h4,
 h5,
 p {
-  margin: 0 0 0.5rem;
+	margin: 0 0 0.5rem;
 }
 
 h1 {
-  font-size: 3.2rem;
+	font-size: 3.2rem;
 }
 
 h2 {
-  font-size: 2.4rem;
+	font-size: 2.4rem;
 }
 
 h3 {
-  font-size: 1.8rem;
+	font-size: 1.8rem;
 }
 
 h4 {
-  font-size: 1.6rem;
+	font-size: 1.6rem;
 }
 
 h5 {
-  font-size: 1.2rem;
+	font-size: 1.2rem;
 }
 
-span,
-a {
-  font-size: 1.4rem;
+span, a {
+	font-size: 1.4rem;
 }
 
 p {
-  font-size: 1.4rem;
-  line-height: 1.5;
-  margin: 0;
+	font-size: 1.4rem;
+	line-height: 1.5;
+	margin: 0;
 }
 
-// Standard Element Styling
+// Standard Element Styling 
 
 a {
-  font-family: "Open Sans", sans-serif;
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0;
-  cursor: pointer;
+	font-family: 'Open Sans', sans-serif;
+	text-decoration: none;
+	color: @primary;
+	margin: 0;
+	cursor: pointer;
 
-  &:hover {
-    color: lighten(grey, 5%); /// FIX THIS
-  }
+	&:hover {
+		color: lighten(@primary, 5%);
+	}
 }
 
 [v-cloak] {
-  display: none;
+	display: none;
 }
 
 .button {
-  background: @primary;
-  border: 0;
-  outline: 0;
-  color: @white;
-  padding: 0.8rem 1rem;
-  min-width: 150px;
-  font-size: 16px;
-  border-radius: 3px;
-  cursor: pointer;
+	background: @primary;
+	border: 0;
+	outline: 0;
+	color: @white;
+	padding: 0.8rem 1rem;
+	min-width: 150px;
+	font-size: 16px;
+	border-radius: 3px;
+	cursor: pointer;
 
-  &:hover {
-    background: lighten(@primary, 5%);
-  }
+	&:hover {
+		background: lighten(@primary, 5%);
+	}
 
-  &:disabled {
-    opacity: 0.5;
+	&:disabled {
+		opacity: 0.5;
 
-    &:hover {
-      background: @primary;
-    }
-  }
+		&:hover {
+			background: @primary;
+		}
+	}
 }
 
 ul {
-  list-style: none;
-  padding-left: 0;
+	list-style: none;
+	padding-left: 0;
 }
+
+
+// Transitions
+
+.fade-enter-active {
+	transition: opacity 0.5s;
+}
+
+.fade-leave-active {
+	transition: opacity 0s;
+}
+
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
+// Layout
+
+.page-wrapper {
+    max-width: 976px;
+    margin: @indent__m auto;
+}
+
+.card {
+	border-radius: 8px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.page-header {
+	margin-bottom: @indent__m;
+	color: @white;
+}
+
+
+// Override inline component styling
+
+.VueCarousel-dot-container {
+	button {
+		margin-top: 0 !important;
+	}
+}
+
 
 // Media query mobile screen sizes
 @media only screen and (max-width: @screen__m) {
-  .button {
-    width: 100%;
+	.button {
+		width: 100%;
+	}
   }
-}
 
-// Animations
 
-/* Safari */
+  // Animations
+
+/* Safari */ 
 @-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
 }
-
+  
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
